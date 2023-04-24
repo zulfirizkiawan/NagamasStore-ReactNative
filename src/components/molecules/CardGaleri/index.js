@@ -1,0 +1,40 @@
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {Gap} from '../../atoms';
+
+const CardGaleri = ({image, title, onPress}) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.wrapProduct}>
+        <Image source={image} style={styles.imgProduct} />
+        <Text style={styles.titleProduct}>{title}</Text>
+        <Gap height={10} />
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export default CardGaleri;
+
+const styles = StyleSheet.create({
+  wrapProduct: {
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginBottom: 20,
+    backgroundColor: 'white',
+    width: 170,
+  },
+  imgProduct: {
+    width: '100%',
+    height: 150,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  titleProduct: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#333333',
+    paddingTop: 8,
+    paddingLeft: 8,
+  },
+});
