@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {CardProfile, Gap} from '../../components';
+import {CardProfile, Gap, ItemListAkun} from '../../components';
 import {Next, people} from '../../assets';
 
 const Akun = ({navigation}) => {
@@ -14,19 +14,25 @@ const Akun = ({navigation}) => {
       <Gap height={20} />
       <View style={styles.wrapContainer}>
         <Gap height={20} />
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <View style={styles.wrapAkun}>
-            <Text style={styles.lihatProfile}>Lihat Profile</Text>
-            <Next />
-          </View>
-        </TouchableOpacity>
+        <ItemListAkun
+          title="Lihat Profile"
+          onPress={() => navigation.navigate('Profile')}
+        />
         <Gap height={20} />
-        <TouchableOpacity onPress={() => navigation.replace('Login')}>
-          <View style={styles.wrapAkun}>
-            <Text style={styles.lihatProfile}>Keluar</Text>
-            <Next />
-          </View>
-        </TouchableOpacity>
+        <ItemListAkun
+          title="Tentang Kami"
+          onPress={() => navigation.navigate('Tentang')}
+        />
+        <Gap height={20} />
+        <ItemListAkun
+          title="Pusat Bantuan"
+          onPress={() => navigation.navigate('PusatBantuan')}
+        />
+        <Gap height={20} />
+        <ItemListAkun
+          title="Keluar"
+          onPress={() => navigation.navigate('Login')}
+        />
         <Gap height={20} />
       </View>
     </View>

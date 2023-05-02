@@ -13,10 +13,11 @@ const Mekanik = ({navigation}) => {
         <CardMekanik
           image={Garage1}
           onPress={() => navigation.navigate('DetailMekanik')}
+          kategori="Mobil"
         />
-        <CardMekanik image={Garage2} />
-        <CardMekanik image={Garage1} />
-        <CardMekanik image={Garage2} />
+        <CardMekanik image={Garage2} kategori="Bus" />
+        <CardMekanik image={Garage1} kategori="Truck" />
+        <CardMekanik image={Garage2} kategori="Pick Up" />
       </ScrollView>
       <Gap height={20} />
     </View>

@@ -31,6 +31,7 @@ const DetailMekanik = ({navigation}) => {
             <Text style={styles.txtMekanik}>Beddis Road garage</Text>
             <Text style={styles.txtStatus}>Tersedia</Text>
           </View>
+          <ItemOutput title="Kategori" result="Mobil" />
           <ItemOutput title="Harga Sewa" result={'Rp 400.000'} />
           <Gap height={20} />
         </View>

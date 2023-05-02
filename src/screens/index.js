@@ -18,6 +18,8 @@ import PesananMekanik from './PesananMekanik';
 import PesananProduct from './PesananProduct';
 import PesananDetailMekanik from './PesananDetailMekanik';
 import PesananDetailProduct from './PesananDetailProduct';
+import Tentang from './Tentang';
+import PusatBantuan from './PusatBantuan';
 
 export {
   SplashScreen,
@@ -40,4 +42,6 @@ export {
   PesananProduct,
   PesananDetailMekanik,
   PesananDetailProduct,
+  Tentang,
+  PusatBantuan,
 };

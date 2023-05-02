@@ -19,8 +19,10 @@ import {
   PesananMekanik,
   PesananProduct,
   Profile,
+  PusatBantuan,
   Register,
   SplashScreen,
+  Tentang,
 } from '../screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -136,6 +138,16 @@ const Router = () => {
       <Stack.Screen
         name="PesananDetailProduct"
         component={PesananDetailProduct}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Tentang"
+        component={Tentang}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PusatBantuan"
+        component={PusatBantuan}
         options={{headerShown: false}}
       />
       <Stack.Screen

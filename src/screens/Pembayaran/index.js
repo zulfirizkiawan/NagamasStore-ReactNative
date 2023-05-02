@@ -67,8 +67,8 @@ const Pembayaran = ({navigation}) => {
       </ScrollView>
       <View style={styles.wrapContainer}>
         <Buttons
-          title="Masukkan Keranjang"
-          onPress={() => navigation.navigate('Berhasil')}
+          title="Pesan Sekarang"
+          onPress={() => navigation.replace('Berhasil')}
         />
       </View>
     </View>
