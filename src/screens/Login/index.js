@@ -10,19 +10,45 @@ import {
 import React from 'react';
 import {login} from '../../assets';
 import {Buttons, Gap, Input} from '../../components/atoms';
+import {useForm} from '../../utils';
+import {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {setLoading} from '../../redux/action';
 
 const Login = ({navigation}) => {
+  const [form, setFrom] = useForm({
+    email: '',
+    password: '',
+  });
+
+  const dispatch = useDispatch();
+
+  const onSubmit = () => {
+    console.log('form login:', form);
+    dispatch(setLoading(true));
+    // dispatch(signInAction(form, navigation));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.txtlogin}>Login</Text>
         <Image source={login} style={styles.logins} />
         <Gap height={50} />
-        <Input title="Email" />
+        <Input
+          title="Email"
+          value={form.email}
+          onChangeText={value => setFrom('email', value)}
+        />
         <Gap height={15} />
-        <Input title="Password" secureTextEntry />
+        <Input
+          title="Password"
+          secureTextEntry
+          value={form.password}
+          onChangeText={value => setFrom('password', value)}
+        />
         <Gap height={30} />
-        <Buttons title="Login" onPress={() => navigation.replace('MainApp')} />
+        <Buttons title="Login" onPress={onSubmit} />
         <Gap height={15} />
         <View style={styles.wrapRegister}>
           <Text style={styles.txtbelum}>Belum memiliki akun?</Text>

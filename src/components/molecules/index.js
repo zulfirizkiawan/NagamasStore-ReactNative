@@ -11,6 +11,7 @@ import PesananMekanikTabSection from './PesananMekanikTabSection';
 import PesananProductTabSection from './PesananProductTabSection';
 import PesananCardMekanik from './PesananCardMekanik';
 import PesananCardProduct from './PesananCardProduct';
+import Loading from './Loading';
 
 export {
   Headers,
@@ -26,4 +27,5 @@ export {
   PesananProductTabSection,
   PesananCardMekanik,
   PesananCardProduct,
+  Loading,
 };

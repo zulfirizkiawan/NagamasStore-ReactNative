@@ -9,25 +9,71 @@ import {
 import React from 'react';
 import {login} from '../../assets';
 import {Buttons, Gap, Input} from '../../components/atoms';
+import {useForm} from '../../utils';
 
 const Register = ({navigation}) => {
+  const [form, setFrom] = useForm({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    phone_number: '',
+    address: '',
+    role_id: 2,
+  });
+
+  const onSubmit = () => {
+    // dispatch(signInAction(form, navigation));
+    // console.log('form register:', form);
+    console.log('form register:', form);
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.txtlogin}>Register</Text>
         <Image source={login} style={styles.logins} />
-        <Gap height={50} />
-        <Input title="Nama lengkap" />
+        <Gap height={20} />
+        <Input
+          title="Nama lengkap"
+          value={form.name}
+          onChangeText={value => setFrom('name', value)}
+        />
         <Gap height={15} />
-        <Input title="Email" />
+        <Input
+          title="Email"
+          value={form.email}
+          onChangeText={value => setFrom('email', value)}
+        />
         <Gap height={15} />
-        <Input title="Password" secureTextEntry />
+        <Input
+          title="Password"
+          secureTextEntry
+          value={form.password}
+          onChangeText={value => setFrom('password', value)}
+        />
         <Gap height={15} />
-        <Input title="No Handphone" keyboardType="numeric" />
+        <Input
+          title="Password Konfirmasi"
+          secureTextEntry
+          value={form.password_confirmation}
+          onChangeText={value => setFrom('password_confirmation', value)}
+        />
         <Gap height={15} />
-        <Input title="Alamat" />
+        <Input
+          title="No Handphone"
+          keyboardType="numeric"
+          value={form.phone_number}
+          onChangeText={value => setFrom('phone_number', value)}
+        />
+        <Gap height={15} />
+        <Input
+          title="Alamat"
+          value={form.address}
+          onChangeText={value => setFrom('address', value)}
+        />
         <Gap height={30} />
-        <Buttons title="Register" />
+        <Buttons title="Register" onPress={onSubmit} />
         <Gap height={15} />
         <View style={styles.wrapRegister}>
           <Text style={styles.txtbelum}>Sudah memiliki akun?</Text>
@@ -35,6 +81,7 @@ const Register = ({navigation}) => {
             <Text style={styles.txtRegister}>Login</Text>
           </TouchableOpacity>
         </View>
+        <Gap height={30} />
       </ScrollView>
     </View>
   );
@@ -58,7 +105,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 150,
     alignSelf: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   wrapRegister: {
     flexDirection: 'row',
