@@ -1,12 +1,28 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {CardMekanik, CardProfile, Gap} from '../../components';
-import {Garage1, Garage2} from '../../assets';
+import {Garage1, Garage2, people} from '../../assets';
+import {getData} from '../../utils';
 
 const Mekanik = ({navigation}) => {
+  const [photo, setPhoto] = useState(people);
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setPhoto({uri: res.profilePhotoPath});
+        setUserProfile(res);
+      });
+    });
+  }, [navigation]);
   return (
     <View style={styles.container}>
-      <CardProfile />
+      <CardProfile
+        image={photo}
+        name={userProfile.name}
+        email={userProfile.email}
+      />
       <Text style={styles.titleProduk}>Mekanik</Text>
       <Gap height={20} />
       <ScrollView showsVerticalScrollIndicator={false}>

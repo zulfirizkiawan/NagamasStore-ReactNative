@@ -1,6 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Gap} from '../../atoms';
+import Number from '../Number';
 
 const CardProduct = ({image, title, price, onPress}) => {
   return (
@@ -8,7 +9,7 @@ const CardProduct = ({image, title, price, onPress}) => {
       <View style={styles.wrapProduct}>
         <Image source={image} style={styles.imgProduct} />
         <Text style={styles.titleProduct}>{title}</Text>
-        <Text style={styles.titlePrice}>Rp {price}</Text>
+        <Number number={price} style={styles.titlePrice} />
         <Gap height={10} />
       </View>
     </TouchableOpacity>

@@ -1,25 +1,53 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {CardGaleri, CardProfile, Gap} from '../../components';
-import {Paint} from '../../assets';
+import {Paint, people} from '../../assets';
+import {getData} from '../../utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {getGaleryData} from '../../redux/action';
 
 const Galeri = ({navigation}) => {
+  const [photo, setPhoto] = useState(people);
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setPhoto({uri: res.profilePhotoPath});
+        setUserProfile(res);
+      });
+    });
+  }, [navigation]);
+
+  const dispatch = useDispatch();
+
+  const {galery} = useSelector(state => state.galeryReducer);
+  console.log('err :', galery);
+  useEffect(() => {
+    dispatch(getGaleryData());
+  }, []);
+
   return (
     <View style={styles.container}>
-      <CardProfile />
+      <CardProfile
+        image={photo}
+        name={userProfile.name}
+        email={userProfile.email}
+      />
       <Text style={styles.titleProduk}>Galeri</Text>
       <Gap height={20} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.wrapProduct}>
-          <CardGaleri
-            image={Paint}
-            title="Repaint Green Glowsy"
-            onPress={() => navigation.navigate('DetailGaleri')}
-          />
-          <CardGaleri image={Paint} title="Repaint Green Glowsy" />
-          <CardGaleri image={Paint} title="Repaint Green Glowsy" />
-          <CardGaleri image={Paint} title="Repaint Green Glowsy" />
-          <CardGaleri image={Paint} title="Repaint Green Glowsy" />
+          {galery.map(itemGalery => {
+            return (
+              <CardGaleri
+                key={itemGalery.id}
+                image={Paint}
+                title={itemGalery.repair_type}
+                onPress={() => navigation.navigate('DetailGaleri', itemGalery)}
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </View>

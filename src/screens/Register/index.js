@@ -10,6 +10,8 @@ import React from 'react';
 import {login} from '../../assets';
 import {Buttons, Gap, Input} from '../../components/atoms';
 import {useForm} from '../../utils';
+import {setLoading, signUpAction} from '../../redux/action';
+import {useDispatch} from 'react-redux';
 
 const Register = ({navigation}) => {
   const [form, setFrom] = useForm({
@@ -21,10 +23,10 @@ const Register = ({navigation}) => {
     address: '',
     role_id: 2,
   });
-
+  const dispatch = useDispatch();
   const onSubmit = () => {
-    // dispatch(signInAction(form, navigation));
-    // console.log('form register:', form);
+    dispatch(setLoading(true));
+    dispatch(signUpAction(form, navigation));
     console.log('form register:', form);
   };
 

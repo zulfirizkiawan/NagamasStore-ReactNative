@@ -11,8 +11,8 @@ const MainApp = () => {
   const {isLoading} = useSelector(state => state.globalReducer);
   return (
     <NavigationContainer>
-      <FlashMessage position="top" />
       <Router />
+      <FlashMessage position="top" />
       {isLoading && <Loading />}
     </NavigationContainer>
   );

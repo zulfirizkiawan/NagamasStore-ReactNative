@@ -1,21 +1,76 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {Gap, Input} from '../../components/atoms';
+import React, {useEffect, useState} from 'react';
+import {Buttons, Gap, Input} from '../../components/atoms';
 import {Headers} from '../../components/molecules';
+import {getData, showMessage, storeData, useForm} from '../../utils';
+import Axios from 'axios';
+import {useDispatch} from 'react-redux';
+import {setLoading} from '../../redux/action';
 
 const EditProfile = ({navigation}) => {
+  const [form, setForm] = useForm({
+    name: '',
+    phone_number: '',
+    email: '',
+    address: '',
+  });
+
+  const dispatch = useDispatch();
+
+  const onSubmit = () => {
+    let resultObj = {};
+    Object.keys(form).map(obj => {
+      if (form[obj]) {
+        resultObj[obj] = form[obj];
+      }
+    });
+    getData('token').then(resToken => {
+      dispatch(setLoading(true));
+      Axios.patch(`https://nagamas.kazuhaproject.com/api/v1/user`, resultObj, {
+        headers: {
+          Authorization: resToken.value,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => {
+          dispatch(setLoading(false));
+          showMessage('Berhasil Diperbarui', 'success');
+          storeData('userProfile', res.data.data).then(() => {
+            navigation.replace('MainApp', {screen: '  Akun   '});
+          });
+        })
+        .catch(err => {
+          dispatch(setLoading(false));
+          showMessage('Terjadi kesalahan di API Update Profile');
+        });
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Headers title="Edit Profile" onPress={() => navigation.goBack('')} />
       <View style={styles.wrapContainer}>
         <Gap height={40} />
-        <Input title="Nama lengkap" />
+        <Input
+          title="Nama lengkap"
+          value={form.name}
+          onChangeText={value => setForm('name', value)}
+        />
         <Gap height={15} />
-        <Input title="Email" />
+        <Input
+          title="No Handphone"
+          value={form.phone_number}
+          onChangeText={value => setForm('phone_number', value)}
+        />
         <Gap height={15} />
-        <Input title="No Handphone" />
-        <Gap height={15} />
-        <Input title="Alamat" />
+        <Input
+          title="Alamat"
+          value={form.address}
+          onChangeText={value => setForm('address', value)}
+        />
+        <Gap height={40} />
+        <Buttons title="Simpan" onPress={onSubmit} />
       </View>
     </View>
   );

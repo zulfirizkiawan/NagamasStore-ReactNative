@@ -7,14 +7,40 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {CardProduct, CardProfile, Gap} from '../../components';
-import {Keranjang, Nippon} from '../../assets';
+import {Keranjang, Nippon, people} from '../../assets';
+import {getData} from '../../utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {getProductData} from '../../redux/action';
 
 const Beranda = ({navigation}) => {
+  const [photo, setPhoto] = useState(people);
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setPhoto({uri: res.profilePhotoPath});
+        setUserProfile(res);
+      });
+    });
+  }, [navigation]);
+
+  const dispatch = useDispatch();
+
+  const {product} = useSelector(state => state.berandaReducer);
+  useEffect(() => {
+    dispatch(getProductData());
+  }, []);
+
   return (
     <View style={styles.container}>
-      <CardProfile />
+      <CardProfile
+        image={photo}
+        name={userProfile.name}
+        email={userProfile.email}
+      />
       <View style={styles.wrapTitle}>
         <Text style={styles.titleProduk}>Produk</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Keranjang')}>
@@ -24,18 +50,17 @@ const Beranda = ({navigation}) => {
       <Gap height={20} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.wrapProduct}>
-          <CardProduct
-            image={Nippon}
-            title="Cat Nippen 2000"
-            price={20000}
-            onPress={() => navigation.navigate('DetailProduk')}
-          />
-          <CardProduct image={Nippon} title="Cat Nippen 2000" price={20000} />
-          <CardProduct image={Nippon} title="Cat Nippen 2000" price={20000} />
-          <CardProduct image={Nippon} title="Cat Nippen 2000" price={20000} />
-          <CardProduct image={Nippon} title="Cat Nippen 2000" price={20000} />
-          <CardProduct image={Nippon} title="Cat Nippen 2000" price={20000} />
-          <CardProduct image={Nippon} title="Cat Nippen 2000" price={20000} />
+          {product.map(itemProduct => {
+            return (
+              <CardProduct
+                key={itemProduct.id}
+                image={Nippon}
+                title={itemProduct.name}
+                price={itemProduct.price}
+                onPress={() => navigation.navigate('DetailProduk', itemProduct)}
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </View>

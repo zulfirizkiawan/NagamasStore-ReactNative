@@ -1,14 +1,16 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {people} from '../../../assets';
+import {useNavigation} from '@react-navigation/native';
+import {getData} from '../../../utils';
 
-const CardProfile = () => {
+const CardProfile = ({image, name, email}) => {
   return (
     <View style={styles.wrapAkun}>
-      <Image source={people} style={styles.photo} />
+      <Image source={image} style={styles.photo} />
       <View style={styles.wrapEmail}>
-        <Text style={styles.email}>Djaja@gmail.com</Text>
-        <Text style={styles.nama}>Djaja Suparman</Text>
+        <Text style={styles.email}>{email}</Text>
+        <Text style={styles.nama}>{name}</Text>
       </View>
     </View>
   );

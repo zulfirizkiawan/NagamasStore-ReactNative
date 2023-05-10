@@ -1,9 +1,10 @@
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Buttons, Gap, Headers} from '../../components';
+import {Buttons, Gap, Headers, Number} from '../../components';
 import {Nippon} from '../../assets';
 
-const DetailProduk = ({navigation}) => {
+const DetailProduk = ({navigation, route}) => {
+  const product = route.params;
   return (
     <View style={styles.container}>
       <Headers title="Detail Produk" onPress={() => navigation.goBack('')} />
@@ -11,20 +12,16 @@ const DetailProduk = ({navigation}) => {
         <Gap height={10} />
         <Image source={Nippon} style={styles.imgMekanik} />
         <View style={styles.wrapContainer}>
-          <Text style={styles.titleProduct}>Cat Nippen 2000</Text>
-          <Text style={styles.titlePrice}>Rp 20.000</Text>
-          <Text style={styles.txtStok}>Tersedia stok 100</Text>
+          <Text style={styles.titleProduct}>{product.name}</Text>
+          {/* <Text style={styles.titlePrice}>Rp {product.price}</Text> */}
+          <Number number={product.price} style={styles.titlePrice} />
+          <Text style={styles.txtStok}>Tersedia stok {product.stock}</Text>
         </View>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
           <Text style={styles.txtInformasi}>Deskripsi Produk</Text>
           <Gap height={5} />
-          <Text style={styles.txtDeskripsi}>
-            NIPPE 2000 adalah cat lacquer auto refinish berbasis nitroselulosa
-            yang cepat kering, daya kilap tinggi dan tersedia dalam berbagai
-            pilihan warna yang tahan lama. Cat ini juga memiliki daya lekat dan
-            ketahanan yang sangat baik untuk diaplikasikan pada kayu dan besi.
-          </Text>
+          <Text style={styles.txtDeskripsi}>{product.description}</Text>
         </View>
 
         <Gap height={10} />

@@ -17,7 +17,10 @@ import {
 } from '../../components';
 import {Garage1, Transfer} from '../../assets';
 
-const DetailMekanik = ({navigation}) => {
+const DetailMekanik = ({navigation, route}) => {
+  // const product = route.params;
+  // console.log('wew', product);
+
   return (
     <View style={styles.container}>
       <Headers title="Detail Mekanik" onPress={() => navigation.goBack('')} />

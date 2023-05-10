@@ -13,7 +13,7 @@ import {Buttons, Gap, Input} from '../../components/atoms';
 import {useForm} from '../../utils';
 import {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {setLoading} from '../../redux/action';
+import {setLoading, signInAction} from '../../redux/action';
 
 const Login = ({navigation}) => {
   const [form, setFrom] = useForm({
@@ -24,9 +24,7 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    console.log('form login:', form);
-    dispatch(setLoading(true));
-    // dispatch(signInAction(form, navigation));
+    dispatch(signInAction(form, navigation));
   };
 
   return (
