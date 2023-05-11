@@ -10,10 +10,12 @@ const DetailProduk = ({navigation, route}) => {
       <Headers title="Detail Produk" onPress={() => navigation.goBack('')} />
       <ScrollView>
         <Gap height={10} />
-        <Image source={Nippon} style={styles.imgMekanik} />
+        <Image
+          source={{uri: product.productPhotoPath}}
+          style={styles.imgMekanik}
+        />
         <View style={styles.wrapContainer}>
           <Text style={styles.titleProduct}>{product.name}</Text>
-          {/* <Text style={styles.titlePrice}>Rp {product.price}</Text> */}
           <Number number={product.price} style={styles.titlePrice} />
           <Text style={styles.txtStok}>Tersedia stok {product.stock}</Text>
         </View>

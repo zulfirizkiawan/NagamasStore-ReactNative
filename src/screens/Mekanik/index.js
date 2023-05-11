@@ -40,7 +40,7 @@ const Mekanik = ({navigation}) => {
           return (
             <CardMekanik
               key={itemMekanik.id}
-              image={Garage1}
+              image={{uri: itemMekanik.mechanicPhotoPath}}
               onPress={() => navigation.navigate('DetailMekanik', itemMekanik)}
               kategori={itemMekanik.category}
             />

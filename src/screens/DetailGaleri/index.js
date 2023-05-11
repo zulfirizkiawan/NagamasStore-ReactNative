@@ -10,7 +10,10 @@ const DetailGaleri = ({navigation, route}) => {
       <Headers title="Detail Galeri" onPress={() => navigation.goBack('')} />
       <ScrollView>
         <Gap height={10} />
-        <Image source={Paint} style={styles.imgMekanik} />
+        <Image
+          source={{uri: galery.galleryPhotoPath}}
+          style={styles.imgMekanik}
+        />
         <View style={styles.wrapContainer}>
           <Text style={styles.txtInformasi}>Informasi Galeri</Text>
           <Gap height={8} />

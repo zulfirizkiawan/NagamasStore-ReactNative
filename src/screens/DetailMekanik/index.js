@@ -21,7 +21,7 @@ import {useForm} from '../../utils';
 
 const DetailMekanik = ({navigation, route}) => {
   const mekanik = route.params;
-  console.log('wew', mekanik);
+  // console.log('wew', mekanik);
 
   const textStyle = mekanik.status === '0' ? styles.redText : styles.greenText;
 
@@ -42,7 +42,10 @@ const DetailMekanik = ({navigation, route}) => {
       <ScrollView>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
-          <Image source={Garage1} style={styles.imgMekanik} />
+          <Image
+            source={{uri: mekanik.mechanicPhotoPath}}
+            style={styles.imgMekanik}
+          />
           <Text style={styles.txtInformasi}>Informasi Mekanik</Text>
           <Gap height={8} />
           <View style={styles.wrapInformasi}>
@@ -55,7 +58,7 @@ const DetailMekanik = ({navigation, route}) => {
           <View style={styles.wrapInformasi}>
             <Text style={styles.txtMekanik}>Harga Sewa</Text>
             <Number
-              number={20000}
+              number={mekanik.price}
               style={{color: '#313131', fontSize: 14, fontWeight: '500'}}
             />
           </View>

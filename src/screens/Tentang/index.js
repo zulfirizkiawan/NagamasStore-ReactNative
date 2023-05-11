@@ -10,11 +10,11 @@ const Tentang = ({navigation}) => {
       <View style={styles.wrapContainer}>
         <Image source={logo} style={styles.logo} />
         <Gap height={10} />
-        <Text>Versi 1.0</Text>
+        <Text style={styles.txtVersion}>Versi 1.0</Text>
         <Gap height={30} />
         <Image source={Stiki} style={styles.stiki} />
         <Gap height={10} />
-        <Text>Support By STIKI MALANG</Text>
+        <Text style={styles.txtStiki}>Support By STIKI MALANG</Text>
       </View>
       <Gap height={50} />
     </View>
@@ -40,5 +40,14 @@ const styles = StyleSheet.create({
   stiki: {
     width: 150,
     height: 150,
+  },
+  txtVersion: {
+    fontSize: 12,
+    color: '#333333',
+  },
+  txtStiki: {
+    fontSize: 14,
+    color: '#333333',
+    fontWeight: '500',
   },
 });

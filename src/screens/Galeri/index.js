@@ -22,7 +22,7 @@ const Galeri = ({navigation}) => {
   const dispatch = useDispatch();
 
   const {galery} = useSelector(state => state.galeryReducer);
-  console.log('err :', galery);
+  console.log('galeri :', galery);
   useEffect(() => {
     dispatch(getGaleryData());
   }, []);
@@ -42,7 +42,7 @@ const Galeri = ({navigation}) => {
             return (
               <CardGaleri
                 key={itemGalery.id}
-                image={Paint}
+                image={{uri: itemGalery.galleryPhotoPath}}
                 title={itemGalery.repair_type}
                 onPress={() => navigation.navigate('DetailGaleri', itemGalery)}
               />

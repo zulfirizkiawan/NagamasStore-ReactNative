@@ -54,7 +54,7 @@ const Beranda = ({navigation}) => {
             return (
               <CardProduct
                 key={itemProduct.id}
-                image={Nippon}
+                image={{uri: itemProduct.productPhotoPath}}
                 title={itemProduct.name}
                 price={itemProduct.price}
                 onPress={() => navigation.navigate('DetailProduk', itemProduct)}
