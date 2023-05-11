@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {CardMekanik, CardProfile, Gap} from '../../components';
 import {Garage1, Garage2, people} from '../../assets';
 import {getData} from '../../utils';
+import {useDispatch, useSelector} from 'react-redux';
+import {getMekanikData} from '../../redux/action/mekanik';
 
 const Mekanik = ({navigation}) => {
   const [photo, setPhoto] = useState(people);
@@ -16,6 +18,14 @@ const Mekanik = ({navigation}) => {
       });
     });
   }, [navigation]);
+
+  const dispatch = useDispatch();
+
+  const {mekanik} = useSelector(state => state.mekanikReducer);
+  useEffect(() => {
+    dispatch(getMekanikData());
+  }, []);
+
   return (
     <View style={styles.container}>
       <CardProfile
@@ -26,14 +36,16 @@ const Mekanik = ({navigation}) => {
       <Text style={styles.titleProduk}>Mekanik</Text>
       <Gap height={20} />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <CardMekanik
-          image={Garage1}
-          onPress={() => navigation.navigate('DetailMekanik')}
-          kategori="Mobil"
-        />
-        <CardMekanik image={Garage2} kategori="Bus" />
-        <CardMekanik image={Garage1} kategori="Truck" />
-        <CardMekanik image={Garage2} kategori="Pick Up" />
+        {mekanik.map(itemMekanik => {
+          return (
+            <CardMekanik
+              key={itemMekanik.id}
+              image={Garage1}
+              onPress={() => navigation.navigate('DetailMekanik', itemMekanik)}
+              kategori={itemMekanik.category}
+            />
+          );
+        })}
       </ScrollView>
       <Gap height={20} />
     </View>

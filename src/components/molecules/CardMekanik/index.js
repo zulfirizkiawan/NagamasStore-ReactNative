@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Gap} from '../../atoms';
+import {Gap, ItemOutput} from '../../atoms';
 
 const CardMekanik = ({image, onPress, kategori}) => {
   return (
@@ -15,10 +15,7 @@ const CardMekanik = ({image, onPress, kategori}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.garis} />
-      <View style={styles.wrapMekanik}>
-        <Text style={styles.txtKategori}>Kategori</Text>
-        <Text style={styles.txtMobil}>{kategori}</Text>
-      </View>
+      <ItemOutput title="Kategori" result={kategori} />
     </View>
   );
 };

@@ -14,12 +14,27 @@ import {
   InformasiPembayaran,
   Input,
   ItemOutput,
+  Number,
 } from '../../components';
 import {Garage1, Transfer} from '../../assets';
+import {useForm} from '../../utils';
 
 const DetailMekanik = ({navigation, route}) => {
-  // const product = route.params;
-  // console.log('wew', product);
+  const mekanik = route.params;
+  console.log('wew', mekanik);
+
+  const textStyle = mekanik.status === '0' ? styles.redText : styles.greenText;
+
+  const [form, setFrom] = useForm({
+    mekanik_id: mekanik.id,
+    namaRekening: '',
+    bankAnda: '',
+    NoRek: '',
+  });
+
+  const onSubmit = () => {
+    console.log('form', form);
+  };
 
   return (
     <View style={styles.container}>
@@ -31,11 +46,19 @@ const DetailMekanik = ({navigation, route}) => {
           <Text style={styles.txtInformasi}>Informasi Mekanik</Text>
           <Gap height={8} />
           <View style={styles.wrapInformasi}>
-            <Text style={styles.txtMekanik}>Beddis Road garage</Text>
-            <Text style={styles.txtStatus}>Tersedia</Text>
+            <Text style={styles.txtMekanik}>{mekanik.name}</Text>
+            <Text style={[styles.txtStatus, textStyle]}>
+              {mekanik.status === '0' ? 'Tidak Tersedia' : 'Tersedia'}
+            </Text>
           </View>
-          <ItemOutput title="Kategori" result="Mobil" />
-          <ItemOutput title="Harga Sewa" result={'Rp 400.000'} />
+          <ItemOutput title="Kategori" result={mekanik.category} />
+          <View style={styles.wrapInformasi}>
+            <Text style={styles.txtMekanik}>Harga Sewa</Text>
+            <Number
+              number={20000}
+              style={{color: '#313131', fontSize: 14, fontWeight: '500'}}
+            />
+          </View>
           <Gap height={20} />
         </View>
         <Gap height={10} />
@@ -43,10 +66,7 @@ const DetailMekanik = ({navigation, route}) => {
           <Gap height={20} />
           <Text style={styles.txtInformasi}>Deskripsi Mekanik</Text>
           <Gap height={10} />
-          <Text style={styles.txtDeskripsi}>
-            Mekanik ini sudah berjalan selama 10 th dan sudah dipercaya dari
-            sabang sampai merauke
-          </Text>
+          <Text style={styles.txtDeskripsi}>{mekanik.description}</Text>
           <Gap height={20} />
         </View>
         <Gap height={10} />
@@ -64,11 +84,23 @@ const DetailMekanik = ({navigation, route}) => {
               <Image source={Transfer} style={styles.imgBukti} />
             </TouchableOpacity>
             <View style={styles.container}>
-              <Input title="Nama rekening anda" />
+              <Input
+                title="Nama rekening anda"
+                value={form.namaRekening}
+                onChangeText={value => setFrom('namaRekening', value)}
+              />
               <Gap height={10} />
-              <Input title="Bank anda" />
+              <Input
+                title="Bank anda"
+                value={form.bankAnda}
+                onChangeText={value => setFrom('bankAnda', value)}
+              />
               <Gap height={10} />
-              <Input title="No rekening anda" />
+              <Input
+                title="No rekening anda"
+                value={form.NoRek}
+                onChangeText={value => setFrom('NoRek', value)}
+              />
             </View>
           </View>
           <Gap height={20} />
@@ -77,10 +109,7 @@ const DetailMekanik = ({navigation, route}) => {
       </ScrollView>
 
       <View style={styles.wrapBtn}>
-        <Buttons
-          title="Sewa Sekarang"
-          onPress={() => navigation.navigate('Berhasil')}
-        />
+        <Buttons title="Sewa Sekarang" onPress={onSubmit} />
       </View>
     </View>
   );
@@ -124,7 +153,12 @@ const styles = StyleSheet.create({
   txtStatus: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#27AE60',
+  },
+  redText: {
+    color: 'red',
+  },
+  greenText: {
+    color: 'green',
   },
   txtDeskripsi: {
     fontSize: 14,

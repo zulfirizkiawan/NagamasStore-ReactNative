@@ -3,6 +3,7 @@ import {registerReducer, photoReducer} from './auth';
 import {globalReducer} from './global';
 import {berandaReducer} from './beranda';
 import {galeryReducer} from './galery';
+import {mekanikReducer} from './mekanik';
 
 const reducer = combineReducers({
   registerReducer,
@@ -10,6 +11,7 @@ const reducer = combineReducers({
   photoReducer,
   berandaReducer,
   galeryReducer,
+  mekanikReducer,
 });
 
 export default reducer;

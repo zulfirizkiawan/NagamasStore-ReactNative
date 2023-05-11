@@ -5,9 +5,9 @@ const API_HOST = {
   url: 'https://nagamas.kazuhaproject.com/api/v1',
 };
 
-export const getGaleryData = () => dispatch => {
+export const getMekanikData = () => dispatch => {
   getData('token').then(resToken => {
-    Axios.get(`${API_HOST.url}/gallery`, {
+    Axios.get(`${API_HOST.url}/mechanic`, {
       headers: {
         Authorization: resToken.value,
         Accept: 'application/json',
@@ -15,8 +15,8 @@ export const getGaleryData = () => dispatch => {
       },
     })
       .then(res => {
-        // console.log('res galery:', res.data.data.galleries);
-        dispatch({type: 'SET_GALERY', value: res.data.data.galleries});
+        console.log('res mechanics:', res.data.data.mechanics);
+        dispatch({type: 'SET_MEKANIK', value: res.data.data.mechanics});
       })
       .catch(err => {
         console.log('err :', err);
