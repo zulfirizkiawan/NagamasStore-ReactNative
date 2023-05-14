@@ -1,50 +1,87 @@
 import {
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import {Buttons, CardKeranjang, Headers} from '../../components';
+import React, {useEffect, useState} from 'react';
+import {Buttons, CardKeranjang, Headers, Number} from '../../components';
 import {Nippon} from '../../assets';
-import {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {deleteCartAction, getCartData, refreshCart} from '../../redux/action';
 
 const Keranjang = ({navigation}) => {
   const [totalItem, setTotalItem] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
+  const {cart, refresh} = useSelector(state => state.cartReducer);
 
+  //untuk refresh produk pada halaman keranjang
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getCartData());
+    setRefreshing(false);
+  };
+
+  const dispatch = useDispatch();
+
+  // untuk memanggil data produk yang telah di tambahkan pada halaman keranjang
+  useEffect(() => {
+    if (refresh) {
+      dispatch(refreshCart());
+      dispatch(getCartData());
+    }
+  }, [refresh, dispatch]);
+
+  // menghapus list produk pada halaman keranjang
+  const removeProduct = productId => {
+    dispatch(deleteCartAction(productId));
+  };
+
+  // untuk menambah atau mengurangi jumlah item pada produk
   const onCounterChange = value => {
     setTotalItem(value);
   };
+
+  // untuk menghitung total harga dari semua produk pada halaman keranjang
+  const calculateTotalPrice = (cart, totalItem) => {
+    let totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+      const item = cart[i];
+      totalPrice += item.price * totalItem;
+    }
+    return totalPrice;
+  };
+
+  const totalHarga = calculateTotalPrice(cart, totalItem);
+
   return (
     <View style={styles.container}>
       <Headers title="Keranjang" onPress={() => navigation.goBack('')} />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.wrapContainer}>
-          <CardKeranjang
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            onValueChange={onCounterChange}
-          />
-          <CardKeranjang
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            onValueChange={onCounterChange}
-          />
-          <CardKeranjang
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            onValueChange={onCounterChange}
-          />
+          {cart.map(itemCart => {
+            return (
+              <CardKeranjang
+                key={itemCart.id}
+                image={{uri: itemCart.product.productPhotoPath ?? Nippon}}
+                product={itemCart.product.name ?? ''}
+                price={itemCart.price}
+                onValueChange={onCounterChange}
+                onPress={() => removeProduct(itemCart.id)}
+              />
+            );
+          })}
         </View>
       </ScrollView>
       <View style={styles.wrapBtn}>
         <View>
           <Text>Total harga</Text>
-          <Text style={styles.titlePrice}>Rp 75.000</Text>
+          <Number style={styles.titlePrice} number={totalHarga} />
         </View>
         <TouchableOpacity
           style={styles.BtnLogin}

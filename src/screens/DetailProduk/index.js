@@ -2,37 +2,53 @@ import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Buttons, Gap, Headers, Number} from '../../components';
 import {Nippon} from '../../assets';
+import {getData, useForm} from '../../utils';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import {cartAction} from '../../redux/action/cart';
+import {useDispatch} from 'react-redux';
+import Axios from 'axios';
 
 const DetailProduk = ({navigation, route}) => {
-  const product = route.params;
+  const {itemProduct, userProfile} = route.params;
+
+  const data = {
+    user_id: userProfile.id,
+    product_id: itemProduct.id,
+    quantity: 1,
+    price: itemProduct.price,
+    status_check: 1,
+  };
+  const dispatch = useDispatch();
+  const onSubmit = () => {
+    dispatch(cartAction(data, navigation));
+  };
+
   return (
     <View style={styles.container}>
       <Headers title="Detail Produk" onPress={() => navigation.goBack('')} />
       <ScrollView>
         <Gap height={10} />
         <Image
-          source={{uri: product.productPhotoPath}}
+          source={{uri: itemProduct.productPhotoPath}}
           style={styles.imgMekanik}
         />
         <View style={styles.wrapContainer}>
-          <Text style={styles.titleProduct}>{product.name}</Text>
-          <Number number={product.price} style={styles.titlePrice} />
-          <Text style={styles.txtStok}>Tersedia stok {product.stock}</Text>
+          <Text style={styles.titleProduct}>{itemProduct.name}</Text>
+          <Number number={itemProduct.price} style={styles.titlePrice} />
+          <Text style={styles.txtStok}>Tersedia stok {itemProduct.stock}</Text>
         </View>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
           <Text style={styles.txtInformasi}>Deskripsi Produk</Text>
           <Gap height={5} />
-          <Text style={styles.txtDeskripsi}>{product.description}</Text>
+          <Text style={styles.txtDeskripsi}>{itemProduct.description}</Text>
         </View>
 
         <Gap height={10} />
       </ScrollView>
       <View style={styles.wrapContainer}>
-        <Buttons
-          title="Masukkan Keranjang"
-          onPress={() => navigation.navigate('Keranjang')}
-        />
+        <Buttons title="Masukkan Keranjang" onPress={onSubmit} />
       </View>
     </View>
   );

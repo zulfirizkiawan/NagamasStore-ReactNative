@@ -57,7 +57,12 @@ const Beranda = ({navigation}) => {
                 image={{uri: itemProduct.productPhotoPath}}
                 title={itemProduct.name}
                 price={itemProduct.price}
-                onPress={() => navigation.navigate('DetailProduk', itemProduct)}
+                onPress={() =>
+                  navigation.navigate('DetailProduk', {
+                    itemProduct,
+                    userProfile,
+                  })
+                }
               />
             );
           })}

@@ -3,46 +3,46 @@ import React from 'react';
 import {Minus, Nippon, Plus, Trash} from '../../../assets';
 import {Gap} from '../../atoms';
 import {useState, useEffect} from 'react';
+import Number from '../Number';
 
-const Cardkeranjang = ({product, image, price, onValueChange}) => {
-  const [stok, setStok] = useState(1);
+const Cardkeranjang = ({product, image, price, onValueChange, onPress}) => {
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    onValueChange(stok);
+    onValueChange(quantity);
   }, []);
 
-  const onCount = type => {
-    let result = stok;
-    if (type === 'plus') {
-      result = stok + 1;
+  const decrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+      onValueChange(quantity - 1);
     }
-    if (type === 'minus') {
-      if (stok > 1) {
-        result = stok - 1;
-      }
-    }
-    setStok(result);
-    onValueChange(result);
   };
+
+  const increment = () => {
+    setQuantity(quantity + 1);
+    onValueChange(quantity + 1);
+  };
+
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.img} />
       <View style={styles.wrapContainer}>
         <Text style={styles.titleProduct}>{product}</Text>
         <View style={styles.wrapPrice}>
-          <Text style={styles.titlePrice}>Rp {price}</Text>
+          <Number number={price} style={styles.titlePrice} />
           <View style={styles.wrapBtn}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onPress}>
               <Trash />
             </TouchableOpacity>
             <Gap width={10} />
-            <TouchableOpacity onPress={() => onCount('minus')}>
+            <TouchableOpacity onPress={decrement}>
               <Minus />
             </TouchableOpacity>
             <Gap width={8} />
-            <Text style={styles.txtStok}>{stok}</Text>
+            <Text style={styles.txtStok}>{quantity}</Text>
             <Gap width={8} />
-            <TouchableOpacity onPress={() => onCount('plus')}>
+            <TouchableOpacity onPress={increment}>
               <Plus />
             </TouchableOpacity>
           </View>

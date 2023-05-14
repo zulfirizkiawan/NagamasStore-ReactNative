@@ -15,7 +15,7 @@ export const getMekanikData = () => dispatch => {
       },
     })
       .then(res => {
-        console.log('res mechanics:', res.data.data.mechanics);
+        // console.log('res mechanics:', res.data.data.mechanics);
         dispatch({type: 'SET_MEKANIK', value: res.data.data.mechanics});
       })
       .catch(err => {

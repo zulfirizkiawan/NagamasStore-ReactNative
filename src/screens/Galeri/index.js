@@ -22,7 +22,6 @@ const Galeri = ({navigation}) => {
   const dispatch = useDispatch();
 
   const {galery} = useSelector(state => state.galeryReducer);
-  console.log('galeri :', galery);
   useEffect(() => {
     dispatch(getGaleryData());
   }, []);

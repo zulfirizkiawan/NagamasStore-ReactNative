@@ -4,6 +4,7 @@ import {globalReducer} from './global';
 import {berandaReducer} from './beranda';
 import {galeryReducer} from './galery';
 import {mekanikReducer} from './mekanik';
+import {cartReducer} from './cart';
 
 const reducer = combineReducers({
   registerReducer,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   berandaReducer,
   galeryReducer,
   mekanikReducer,
+  cartReducer,
 });
 
 export default reducer;
