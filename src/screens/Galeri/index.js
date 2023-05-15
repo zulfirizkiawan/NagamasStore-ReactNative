@@ -1,19 +1,17 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CardGaleri, CardProfile, Gap} from '../../components';
-import {Paint, people} from '../../assets';
+import {NullUserPhoto, Paint, people} from '../../assets';
 import {getData} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {getGaleryData} from '../../redux/action';
 
 const Galeri = ({navigation}) => {
-  const [photo, setPhoto] = useState(people);
   const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
-        setPhoto({uri: res.profilePhotoPath});
         setUserProfile(res);
       });
     });
@@ -28,11 +26,19 @@ const Galeri = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <CardProfile
-        image={photo}
-        name={userProfile.name}
-        email={userProfile.email}
-      />
+      {userProfile.profilePhotoPath ? (
+        <CardProfile
+          image={{uri: userProfile.profilePhotoPath}}
+          name={userProfile.name}
+          email={userProfile.email}
+        />
+      ) : (
+        <CardProfile
+          image={NullUserPhoto}
+          name={userProfile.name}
+          email={userProfile.email}
+        />
+      )}
       <Text style={styles.titleProduk}>Galeri</Text>
       <Gap height={20} />
       <ScrollView showsVerticalScrollIndicator={false}>

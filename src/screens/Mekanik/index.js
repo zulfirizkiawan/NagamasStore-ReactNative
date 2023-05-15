@@ -1,19 +1,17 @@
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CardMekanik, CardProfile, Gap} from '../../components';
-import {Garage1, Garage2, people} from '../../assets';
+import {Garage1, Garage2, NullUserPhoto, people} from '../../assets';
 import {getData} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMekanikData} from '../../redux/action';
 
 const Mekanik = ({navigation}) => {
-  const [photo, setPhoto] = useState(people);
   const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
-        setPhoto({uri: res.profilePhotoPath});
         setUserProfile(res);
       });
     });
@@ -28,11 +26,19 @@ const Mekanik = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <CardProfile
-        image={photo}
-        name={userProfile.name}
-        email={userProfile.email}
-      />
+      {userProfile.profilePhotoPath ? (
+        <CardProfile
+          image={{uri: userProfile.profilePhotoPath}}
+          name={userProfile.name}
+          email={userProfile.email}
+        />
+      ) : (
+        <CardProfile
+          image={NullUserPhoto}
+          name={userProfile.name}
+          email={userProfile.email}
+        />
+      )}
       <Text style={styles.titleProduk}>Mekanik</Text>
       <Gap height={20} />
       <ScrollView showsVerticalScrollIndicator={false}>

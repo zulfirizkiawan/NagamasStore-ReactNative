@@ -6,12 +6,19 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
 import {Gap} from '../../atoms';
 import PesananCardMekanik from '../PesananCardMekanik';
 import {Garage1} from '../../../assets';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getPendingMekanik,
+  getProsesMekanik,
+  getSelesaiMekanik,
+  getBatalMekanik,
+} from '../../../redux/action';
 
 const renderTabBar = props => (
   <TabBar
@@ -41,15 +48,39 @@ const renderTabBar = props => (
 
 const PesananPendingMekanik = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {pendingMekanik} = useSelector(state => state.pesananMekanikReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPendingMekanik());
+    // console.log('mekanik :', pendingMekanik);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getPendingMekanik());
+    setRefreshing(false);
+  };
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardMekanik
-          image={Garage1}
-          status="Pending"
-          onPress={() => navigation.navigate('PesananDetailMekanik')}
-        />
+        {pendingMekanik.map(itemMekanik => {
+          return (
+            <PesananCardMekanik
+              key={itemMekanik.id}
+              image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
+              status={itemMekanik.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailMekanik', itemMekanik)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -58,11 +89,39 @@ const PesananPendingMekanik = () => {
 
 const PesananProsesMekanik = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {prosesMekanik} = useSelector(state => state.pesananMekanikReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProsesMekanik());
+    // console.log('mekanik :', pendingMekanik);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getProsesMekanik());
+    setRefreshing(false);
+  };
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardMekanik image={Garage1} status="Proses" />
+        {prosesMekanik.map(itemMekanik => {
+          return (
+            <PesananCardMekanik
+              key={itemMekanik.id}
+              image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
+              status={itemMekanik.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailMekanik', itemMekanik)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -71,11 +130,39 @@ const PesananProsesMekanik = () => {
 
 const PesananSelesaiMekanik = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {selesaiMekanik} = useSelector(state => state.pesananMekanikReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSelesaiMekanik());
+    // console.log('mekanik :', pendingMekanik);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getSelesaiMekanik());
+    setRefreshing(false);
+  };
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardMekanik image={Garage1} status="Selesai" />
+        {selesaiMekanik.map(itemMekanik => {
+          return (
+            <PesananCardMekanik
+              key={itemMekanik.id}
+              image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
+              status={itemMekanik.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailMekanik', itemMekanik)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -84,11 +171,39 @@ const PesananSelesaiMekanik = () => {
 
 const PesananBatalMekanik = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {batalMekanik} = useSelector(state => state.pesananMekanikReducer);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBatalMekanik());
+    // console.log('mekanik :', pendingMekanik);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getBatalMekanik());
+    setRefreshing(false);
+  };
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardMekanik image={Garage1} status="Batal" />
+        {batalMekanik.map(itemMekanik => {
+          return (
+            <PesananCardMekanik
+              key={itemMekanik.id}
+              image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
+              status={itemMekanik.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailMekanik', itemMekanik)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>

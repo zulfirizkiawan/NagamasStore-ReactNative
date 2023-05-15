@@ -14,22 +14,26 @@ import {
   InformasiPembayaran,
   Input,
   ItemOutput,
+  Number,
 } from '../../components';
 import {Garage1, Transfer} from '../../assets';
 
-const PesananDetailMekanik = ({navigation}) => {
-  const status = 'Pending';
+const PesananDetailMekanik = ({navigation, route}) => {
+  const itemMekanik = route.params;
+  console.log(itemMekanik);
+
+  const status = itemMekanik.status;
   const getStatusText = () => {
-    if (status === 'Pending') {
+    if (status === 'Pending' || 'pending') {
       return <Text style={styles.pending}>Pending</Text>;
     }
-    if (status === 'Proses') {
+    if (status === 'Proses' || 'proses') {
       return <Text style={styles.proses}>Proses</Text>;
     }
-    if (status === 'Selesai') {
+    if (status === 'Selesai' || 'selesai') {
       return <Text style={styles.selesai}>Selesai</Text>;
     }
-    if (status === 'Batal') {
+    if (status === 'Batal' || 'batal') {
       return <Text style={styles.batal}>Batal</Text>;
     }
   };
@@ -52,8 +56,14 @@ const PesananDetailMekanik = ({navigation}) => {
           </View>
           <Text style={styles.txtInformasi}>Informasi Mekanik</Text>
           <Gap height={8} />
-          <Text style={styles.txtMekanik}>Beddis Road garage</Text>
-          <ItemOutput title="Harga Sewa" result={'Rp 400.000'} />
+          <Text style={styles.txtMekanik}>{itemMekanik.mechanic.name}</Text>
+          <View style={styles.wrapInformasi}>
+            <Text style={styles.txtMekanik}>Harga Sewa</Text>
+            <Number
+              style={styles.txtInformasi}
+              number={itemMekanik.total_price}
+            />
+          </View>
           <Gap height={20} />
         </View>
         <Gap height={10} />
@@ -62,8 +72,7 @@ const PesananDetailMekanik = ({navigation}) => {
           <Text style={styles.txtInformasi}>Deskripsi Mekanik</Text>
           <Gap height={10} />
           <Text style={styles.txtDeskripsi}>
-            Mekanik ini sudah berjalan selama 10 th dan sudah dipercaya dari
-            sabang sampai merauke
+            {itemMekanik.mechanic.description}
           </Text>
           <Gap height={20} />
         </View>
@@ -77,13 +86,28 @@ const PesananDetailMekanik = ({navigation}) => {
           </Text>
           <Gap height={10} />
           <View style={styles.wrapInformasi}>
-            <Image source={Transfer} style={styles.imgBukti} />
+            <Image
+              source={{uri: itemMekanik.purchaseReceiptPath}}
+              style={styles.imgBukti}
+            />
             <View style={styles.container}>
-              <Input title="Nama rekening anda" disable />
+              <Input
+                title="Nama rekening anda"
+                disable
+                value={itemMekanik.bank_account_name}
+              />
               <Gap height={10} />
-              <Input title="Bank anda" disable />
+              <Input
+                title="Bank anda"
+                disable
+                value={itemMekanik.bank_name ?? 'Kosong'}
+              />
               <Gap height={10} />
-              <Input title="No rekening anda" disable />
+              <Input
+                title="No rekening anda"
+                disable
+                value={itemMekanik.account_number ?? 'Kosong'}
+              />
             </View>
           </View>
           <Gap height={20} />

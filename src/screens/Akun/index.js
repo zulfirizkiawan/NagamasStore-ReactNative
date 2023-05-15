@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CardProfile, Gap, ItemListAkun} from '../../components';
-import {Next, people} from '../../assets';
+import {Next, NullUserPhoto, PhotoUser, people} from '../../assets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getData} from '../../utils';
 
@@ -12,13 +12,11 @@ const Akun = ({navigation}) => {
     });
   };
 
-  const [photo, setPhoto] = useState(people);
   const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
-        setPhoto({uri: res.profilePhotoPath});
         setUserProfile(res);
       });
     });
@@ -29,11 +27,19 @@ const Akun = ({navigation}) => {
       <View style={styles.wrapContainer}>
         <Gap height={20} />
         <Text style={styles.titleAkun}>Akun</Text>
-        <CardProfile
-          image={photo}
-          name={userProfile.name}
-          email={userProfile.email}
-        />
+        {userProfile.profilePhotoPath ? (
+          <CardProfile
+            image={{uri: userProfile.profilePhotoPath}}
+            name={userProfile.name}
+            email={userProfile.email}
+          />
+        ) : (
+          <CardProfile
+            image={NullUserPhoto}
+            name={userProfile.name}
+            email={userProfile.email}
+          />
+        )}
       </View>
       <Gap height={20} />
       <View style={styles.wrapContainer}>

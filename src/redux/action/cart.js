@@ -1,4 +1,3 @@
-// import Axios from 'axios';
 import Axios from 'axios';
 import {getData, showMessage} from '../../utils';
 import {setLoading} from './global';

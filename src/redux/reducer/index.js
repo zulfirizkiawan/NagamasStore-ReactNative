@@ -5,6 +5,7 @@ import {berandaReducer} from './beranda';
 import {galeryReducer} from './galery';
 import {mekanikReducer} from './mekanik';
 import {cartReducer} from './cart';
+import {pesananMekanikReducer} from './pesananMekanik';
 
 const reducer = combineReducers({
   registerReducer,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   galeryReducer,
   mekanikReducer,
   cartReducer,
+  pesananMekanikReducer,
 });
 
 export default reducer;

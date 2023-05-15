@@ -15,6 +15,8 @@ import Keranjang from './keranjang.svg';
 import Minus from './min.svg';
 import Plus from './plus.svg';
 import Trash from './trash.svg';
+import PhotoUser from './ICNullPhoto.svg';
+import NullUserPhoto from './userPhoto.png';
 
 export {
   Back,
@@ -34,4 +36,6 @@ export {
   Minus,
   Plus,
   Trash,
+  PhotoUser,
+  NullUserPhoto,
 };

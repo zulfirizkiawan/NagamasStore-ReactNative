@@ -4,16 +4,16 @@ import {Gap} from '../../atoms';
 
 const PesananCardMekanik = ({image, status, onPress}) => {
   const getStatusText = () => {
-    if (status === 'Pending') {
+    if (status === 'Pending' || 'pending') {
       return <Text style={styles.pending}>Pending</Text>;
     }
-    if (status === 'Proses') {
+    if (status === 'Proses' || 'proses') {
       return <Text style={styles.proses}>Proses</Text>;
     }
-    if (status === 'Selesai') {
+    if (status === 'Selesai' || 'selesai') {
       return <Text style={styles.selesai}>Selesai</Text>;
     }
-    if (status === 'Batal') {
+    if (status === 'Batal' || 'batal') {
       return <Text style={styles.batal}>Batal</Text>;
     }
   };

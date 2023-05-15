@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 
-import {EditPhoto, people} from '../../assets';
+import {EditPhoto, PhotoUser, people} from '../../assets';
 import {Gap, Input} from '../../components/atoms';
 import {Headers} from '../../components/molecules';
 import {getData, showMessage, storeData} from '../../utils';
@@ -11,9 +11,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 
 const Profile = () => {
   const navigation = useNavigation();
-  const [photo, setPhoto] = useState(people);
   const [userProfile, setUserProfile] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -83,10 +81,18 @@ const Profile = () => {
         </TouchableOpacity>
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity onPress={updatePhoto}>
-            <Image
-              source={{uri: userProfile.profilePhotoPath}}
-              style={styles.photoContainer}
-            />
+            {userProfile.profilePhotoPath ? (
+              <Image
+                source={{uri: userProfile.profilePhotoPath}}
+                style={styles.photoContainer}
+              />
+            ) : (
+              <PhotoUser
+                width={100}
+                height={100}
+                style={styles.photoContainer}
+              />
+            )}
             <EditPhoto style={styles.iconPhoto} />
           </TouchableOpacity>
         </View>
@@ -123,15 +129,15 @@ const styles = StyleSheet.create({
   iconPhoto: {
     width: 24,
     position: 'absolute',
-    bottom: 0,
-    right: 0,
+    bottom: 5,
+    right: 3,
     width: 30,
     height: 30,
   },
   photoContainer: {
-    width: 90,
-    height: 90,
-    borderRadius: 90,
+    width: 100,
+    height: 100,
+    borderRadius: 100 / 2,
     backgroundColor: '#fff',
     padding: 24,
   },

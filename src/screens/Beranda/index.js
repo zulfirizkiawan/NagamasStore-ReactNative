@@ -9,19 +9,17 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CardProduct, CardProfile, Gap} from '../../components';
-import {Keranjang, Nippon, people} from '../../assets';
+import {Keranjang, Nippon, NullUserPhoto, people} from '../../assets';
 import {getData} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
 import {getProductData} from '../../redux/action';
 
 const Beranda = ({navigation}) => {
-  const [photo, setPhoto] = useState(people);
   const [userProfile, setUserProfile] = useState({});
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
-        setPhoto({uri: res.profilePhotoPath});
         setUserProfile(res);
       });
     });
@@ -36,11 +34,19 @@ const Beranda = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <CardProfile
-        image={photo}
-        name={userProfile.name}
-        email={userProfile.email}
-      />
+      {userProfile.profilePhotoPath ? (
+        <CardProfile
+          image={{uri: userProfile.profilePhotoPath}}
+          name={userProfile.name}
+          email={userProfile.email}
+        />
+      ) : (
+        <CardProfile
+          image={NullUserPhoto}
+          name={userProfile.name}
+          email={userProfile.email}
+        />
+      )}
       <View style={styles.wrapTitle}>
         <Text style={styles.titleProduk}>Produk</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Keranjang')}>
