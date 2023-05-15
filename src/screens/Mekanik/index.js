@@ -4,7 +4,7 @@ import {CardMekanik, CardProfile, Gap} from '../../components';
 import {Garage1, Garage2, people} from '../../assets';
 import {getData} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
-import {getMekanikData} from '../../redux/action/mekanik';
+import {getMekanikData} from '../../redux/action';
 
 const Mekanik = ({navigation}) => {
   const [photo, setPhoto] = useState(people);
@@ -41,7 +41,12 @@ const Mekanik = ({navigation}) => {
             <CardMekanik
               key={itemMekanik.id}
               image={{uri: itemMekanik.mechanicPhotoPath}}
-              onPress={() => navigation.navigate('DetailMekanik', itemMekanik)}
+              onPress={() =>
+                navigation.navigate('DetailMekanik', {
+                  itemMekanik,
+                  userProfile,
+                })
+              }
               kategori={itemMekanik.category}
             />
           );

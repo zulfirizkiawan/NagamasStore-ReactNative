@@ -20,7 +20,7 @@ export const signUpAction = (form, navigation) => dispatch => {
       navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
     })
     .catch(err => {
-      console.log('data error', err);
+      console.log('error register', err);
       dispatch(setLoading(false));
       showMessage('Register Gagal');
     });
@@ -39,6 +39,7 @@ export const signInAction = (form, navigation) => dispatch => {
       navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
     })
     .catch(err => {
+      console.log('error login', err);
       dispatch(setLoading(false));
       showMessage('Login gagal');
     });

@@ -1,12 +1,13 @@
 import {
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Buttons,
   Gap,
@@ -16,49 +17,80 @@ import {
   ItemOutput,
   Number,
 } from '../../components';
-import {Garage1, Transfer} from '../../assets';
-import {useForm} from '../../utils';
+import {Garage1, Transfer, UploadPayment} from '../../assets';
+import {getData, useForm} from '../../utils';
+import {coMekanikData} from '../../redux/action';
+import {useDispatch} from 'react-redux';
+import {launchImageLibrary} from 'react-native-image-picker';
+import Axios from 'axios';
 
 const DetailMekanik = ({navigation, route}) => {
-  const mekanik = route.params;
-  // console.log('wew', mekanik);
+  const {itemMekanik, userProfile} = route.params;
+  const [bankAccountName, setBankAccountName] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  const textStyle = mekanik.status === '0' ? styles.redText : styles.greenText;
+  const textStyle =
+    itemMekanik.status === '0' ? styles.redText : styles.greenText;
 
-  const [form, setFrom] = useForm({
-    mekanik_id: mekanik.id,
-    namaRekening: '',
-    bankAnda: '',
-    NoRek: '',
-  });
+  const selectImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.didCancel) {
+        console.log('Image selection cancelled');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        setSelectedImage(response.assets[0].uri);
+      }
+    });
+  };
 
+  const API_HOST = {
+    url: 'https://nagamas.kazuhaproject.com/api/v1',
+  };
+
+  const dispatch = useDispatch();
   const onSubmit = () => {
-    console.log('form', form);
+    const formdata = new FormData();
+    formdata.append('user_id', userProfile.id);
+    formdata.append('mechanic_id', itemMekanik.id);
+    formdata.append('bank_account_name', bankAccountName);
+    formdata.append('bank_name', bankName);
+    formdata.append('account_number', accountNumber);
+    formdata.append('total_price', itemMekanik.price);
+    formdata.append('purchaseReceiptPath', {
+      uri: selectedImage,
+      name: 'paymentImage.jpg',
+      type: 'image/jpg',
+    });
+
+    dispatch(coMekanikData(formdata, navigation));
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Headers title="Detail Mekanik" onPress={() => navigation.goBack('')} />
       <ScrollView>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
           <Image
-            source={{uri: mekanik.mechanicPhotoPath}}
+            source={{uri: itemMekanik.mechanicPhotoPath}}
             style={styles.imgMekanik}
           />
           <Text style={styles.txtInformasi}>Informasi Mekanik</Text>
           <Gap height={8} />
           <View style={styles.wrapInformasi}>
-            <Text style={styles.txtMekanik}>{mekanik.name}</Text>
+            <Text style={styles.txtMekanik}>{itemMekanik.name}</Text>
             <Text style={[styles.txtStatus, textStyle]}>
-              {mekanik.status === '0' ? 'Tidak Tersedia' : 'Tersedia'}
+              {itemMekanik.status === '0' ? 'Tidak Tersedia' : 'Tersedia'}
             </Text>
           </View>
-          <ItemOutput title="Kategori" result={mekanik.category} />
+          <ItemOutput title="Kategori" result={itemMekanik.category} />
           <View style={styles.wrapInformasi}>
             <Text style={styles.txtMekanik}>Harga Sewa</Text>
             <Number
-              number={mekanik.price}
+              number={itemMekanik.price}
               style={{color: '#313131', fontSize: 14, fontWeight: '500'}}
             />
           </View>
@@ -69,7 +101,7 @@ const DetailMekanik = ({navigation, route}) => {
           <Gap height={20} />
           <Text style={styles.txtInformasi}>Deskripsi Mekanik</Text>
           <Gap height={10} />
-          <Text style={styles.txtDeskripsi}>{mekanik.description}</Text>
+          <Text style={styles.txtDeskripsi}>{itemMekanik.description}</Text>
           <Gap height={20} />
         </View>
         <Gap height={10} />
@@ -83,26 +115,35 @@ const DetailMekanik = ({navigation, route}) => {
           </Text>
           <Gap height={10} />
           <View style={styles.wrapInformasi}>
-            <TouchableOpacity>
-              <Image source={Transfer} style={styles.imgBukti} />
+            <TouchableOpacity onPress={selectImage}>
+              {selectedImage ? (
+                <Image source={{uri: selectedImage}} style={styles.imgBukti} />
+              ) : (
+                <UploadPayment
+                  width={130}
+                  height={200}
+                  style={styles.imgBukti}
+                />
+              )}
             </TouchableOpacity>
             <View style={styles.container}>
               <Input
                 title="Nama rekening anda"
-                value={form.namaRekening}
-                onChangeText={value => setFrom('namaRekening', value)}
+                value={bankAccountName}
+                onChangeText={value => setBankAccountName(value)}
               />
               <Gap height={10} />
               <Input
                 title="Bank anda"
-                value={form.bankAnda}
-                onChangeText={value => setFrom('bankAnda', value)}
+                value={bankName}
+                onChangeText={value => setBankName(value)}
               />
               <Gap height={10} />
               <Input
                 title="No rekening anda"
-                value={form.NoRek}
-                onChangeText={value => setFrom('NoRek', value)}
+                keyboardType="numeric"
+                value={accountNumber}
+                onChangeText={value => setAccountNumber(value)}
               />
             </View>
           </View>
@@ -114,7 +155,7 @@ const DetailMekanik = ({navigation, route}) => {
       <View style={styles.wrapBtn}>
         <Buttons title="Sewa Sekarang" onPress={onSubmit} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -4,30 +4,30 @@ import {Gap, Headers, ItemOutput} from '../../components';
 import {Paint} from '../../assets';
 
 const DetailGaleri = ({navigation, route}) => {
-  const galery = route.params;
+  const itemGalery = route.params;
   return (
     <View style={styles.container}>
       <Headers title="Detail Galeri" onPress={() => navigation.goBack('')} />
       <ScrollView>
         <Gap height={10} />
         <Image
-          source={{uri: galery.galleryPhotoPath}}
+          source={{uri: itemGalery.galleryPhotoPath}}
           style={styles.imgMekanik}
         />
         <View style={styles.wrapContainer}>
           <Text style={styles.txtInformasi}>Informasi Galeri</Text>
           <Gap height={8} />
-          <ItemOutput title="jenis Repaint" result={galery.repair_type} />
+          <ItemOutput title="jenis Repaint" result={itemGalery.repair_type} />
         </View>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
           <Text style={styles.txtInformasi}>Deskripsi Mekanik</Text>
           <Gap height={5} />
-          <Text style={styles.txtDeskripsi}>{galery.description}</Text>
+          <Text style={styles.txtDeskripsi}>{itemGalery.description}</Text>
           <Gap height={10} />
           <Text style={styles.txtInformasi}>Bahan</Text>
           <Gap height={5} />
-          {galery.products.map(productGalery => {
+          {itemGalery.products.map(productGalery => {
             return (
               <View style={styles.wrapBahan} key={productGalery.id}>
                 <View style={styles.dot} />
@@ -40,7 +40,7 @@ const DetailGaleri = ({navigation, route}) => {
           <Text style={styles.txtInformasi}>Rekomendasi Mekanik</Text>
           <Gap height={5} />
           <Text style={styles.txtDeskripsi}>
-            {galery.mechanic_recommendation}
+            {itemGalery.mechanic_recommendation}
           </Text>
         </View>
 

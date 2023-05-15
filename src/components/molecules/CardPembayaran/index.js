@@ -3,6 +3,7 @@ import React from 'react';
 import {Minus, Nippon, Plus, Trash} from '../../../assets';
 import {Gap} from '../../atoms';
 import {useState, useEffect} from 'react';
+import Number from '../Number';
 
 const CardPembayaran = ({product, image, price, item}) => {
   return (
@@ -11,7 +12,7 @@ const CardPembayaran = ({product, image, price, item}) => {
       <View style={styles.wrapContainer}>
         <Text style={styles.titleProduct}>{product}</Text>
         <View style={styles.wrapPrice}>
-          <Text style={styles.titlePrice}>Rp {price}</Text>
+          <Number number={price} style={styles.titlePrice} />
           <View style={styles.wrapBtn}>
             <Text style={styles.txtStok}>{item}</Text>
             <Gap width={8} />

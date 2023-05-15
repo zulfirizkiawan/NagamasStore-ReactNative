@@ -43,7 +43,6 @@ const MainApp = () => {
         component={Mekanik}
         options={{headerShown: false}}
       />
-
       <Tab.Screen
         name="Galeri"
         component={Galeri}

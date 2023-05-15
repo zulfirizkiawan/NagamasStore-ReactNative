@@ -19,7 +19,7 @@ export const getProductData = () => dispatch => {
         dispatch({type: 'SET_PRODUCT', value: res.data.data.products});
       })
       .catch(err => {
-        console.log('error:', err);
+        console.log('error produk:', err);
       });
   });
 };

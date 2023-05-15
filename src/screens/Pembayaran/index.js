@@ -15,10 +15,50 @@ import {
   InformasiPembayaran,
   Input,
   ItemOutput,
+  Number,
 } from '../../components';
-import {Nippon, Transfer} from '../../assets';
+import {Nippon, Transfer, UploadPayment} from '../../assets';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch} from 'react-redux';
+import {useState} from 'react';
 
-const Pembayaran = ({navigation}) => {
+const Pembayaran = ({navigation, route}) => {
+  const {cart, userProfile} = route.params;
+  console.log('produk item', cart);
+  const [bankAccountName, setBankAccountName] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const selectImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, response => {
+      if (response.didCancel) {
+        console.log('Image selection cancelled');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        setSelectedImage(response.assets[0].uri);
+      }
+    });
+  };
+
+  const dispatch = useDispatch();
+  const onSubmit = () => {
+    const formdata = new FormData();
+    formdata.append('user_id', userProfile.id);
+    formdata.append('bank_account_name', bankAccountName);
+    formdata.append('bank_name', bankName);
+    formdata.append('account_number', accountNumber);
+    formdata.append('total_price', cart);
+    formdata.append('purchaseReceiptPath', {
+      uri: selectedImage,
+      name: 'paymentImage.jpg',
+      type: 'image/jpg',
+    });
+    console.log('form', formdata);
+    // dispatch(coMekanikData(formdata, navigation));
+  };
+
   return (
     <View style={styles.container}>
       <Headers title="Pembayaran" onPress={() => navigation.goBack('')} />
@@ -26,20 +66,25 @@ const Pembayaran = ({navigation}) => {
         <Gap height={10} />
         <View style={styles.wrapContainer}>
           <Text style={styles.txtInformasi}>Informasi Pemesanan</Text>
-          <CardPembayaran
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            item={1}
-          />
-          <CardPembayaran
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            item={1}
-          />
+          {cart.map(itemProduk => {
+            return (
+              <CardPembayaran
+                key={itemProduk.id}
+                image={{uri: itemProduk.product.productPhotoPath ?? Nippon}}
+                product={itemProduk.product.name ?? ''}
+                price={itemProduk.price}
+                item={1}
+              />
+            );
+          })}
           <Gap height={10} />
-          <ItemOutput title="Total Harga" result={'Rp 75.000'} />
+          <View style={styles.wrapInformasi}>
+            <Text style={styles.txtMekanik}>Total Harga</Text>
+            <Number
+              number={70000}
+              style={{color: '#313131', fontSize: 14, fontWeight: '500'}}
+            />
+          </View>
         </View>
         <Gap height={10} />
         <InformasiPembayaran />
@@ -51,25 +96,43 @@ const Pembayaran = ({navigation}) => {
           </Text>
           <Gap height={10} />
           <View style={styles.wrapInformasi}>
-            <TouchableOpacity>
-              <Image source={Transfer} style={styles.imgBukti} />
+            <TouchableOpacity onPress={selectImage}>
+              {selectedImage ? (
+                <Image source={{uri: selectedImage}} style={styles.imgBukti} />
+              ) : (
+                <UploadPayment
+                  width={130}
+                  height={200}
+                  style={styles.imgBukti}
+                />
+              )}
             </TouchableOpacity>
             <View style={styles.container}>
-              <Input title="Nama rekening anda" />
+              <Input
+                title="Nama rekening anda"
+                value={bankAccountName}
+                onChangeText={value => setBankAccountName(value)}
+              />
               <Gap height={10} />
-              <Input title="Bank anda" />
+              <Input
+                title="Bank anda"
+                value={bankName}
+                onChangeText={value => setBankName(value)}
+              />
               <Gap height={10} />
-              <Input title="No rekening anda" />
+              <Input
+                title="No rekening anda"
+                keyboardType="numeric"
+                value={accountNumber}
+                onChangeText={value => setAccountNumber(value)}
+              />
             </View>
           </View>
         </View>
         <Gap height={10} />
       </ScrollView>
       <View style={styles.wrapContainer}>
-        <Buttons
-          title="Pesan Sekarang"
-          onPress={() => navigation.replace('Berhasil')}
-        />
+        <Buttons title="Pesan Sekarang" onPress={onSubmit} />
       </View>
     </View>
   );
@@ -107,6 +170,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   wrapPembayaran: {
+    flex: 1,
+  },
+  txtMekanik: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#313131',
     flex: 1,
   },
 });

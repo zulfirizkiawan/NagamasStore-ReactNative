@@ -11,11 +11,21 @@ import {Buttons, CardKeranjang, Headers, Number} from '../../components';
 import {Nippon} from '../../assets';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteCartAction, getCartData, refreshCart} from '../../redux/action';
+import {getData} from '../../utils';
 
 const Keranjang = ({navigation}) => {
   const [totalItem, setTotalItem] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
   const {cart, refresh} = useSelector(state => state.cartReducer);
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getData('userProfile').then(res => {
+        setUserProfile(res);
+      });
+    });
+  }, [navigation]);
 
   //untuk refresh produk pada halaman keranjang
   const onRefresh = () => {
@@ -85,7 +95,12 @@ const Keranjang = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={styles.BtnLogin}
-          onPress={() => navigation.navigate('Pembayaran')}>
+          onPress={() =>
+            navigation.navigate('Pembayaran', {
+              cart,
+              userProfile,
+            })
+          }>
           <Text style={styles.TxtLogin}>Pembayaran</Text>
         </TouchableOpacity>
       </View>

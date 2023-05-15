@@ -19,7 +19,7 @@ export const getGaleryData = () => dispatch => {
         dispatch({type: 'SET_GALERY', value: res.data.data.galleries});
       })
       .catch(err => {
-        console.log('err :', err);
+        console.log('err ambil data galery:', err);
       });
   });
 };

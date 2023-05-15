@@ -24,7 +24,7 @@ export const getCartData = () => dispatch => {
           dispatch({type: 'SET_CART', value: res.data.data.data});
         })
         .catch(err => {
-          console.log('error:', err);
+          console.log('error mengambil data keranjang:', err);
         });
     });
   });
@@ -48,7 +48,7 @@ export const cartAction = (data, navigation) => dispatch => {
       })
       .catch(err => {
         dispatch(setLoading(false));
-        console.log('error:', err);
+        console.log('error menambah ke keranjang:', err);
       });
   });
 };
@@ -71,7 +71,7 @@ export const deleteCartAction = productId => dispatch => {
       })
       .catch(err => {
         dispatch(setLoading(false));
-        console.log('error:', err);
+        console.log('error delete produk:', err);
       });
   });
 };

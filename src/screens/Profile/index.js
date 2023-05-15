@@ -6,12 +6,14 @@ import {Gap, Input} from '../../components/atoms';
 import {Headers} from '../../components/molecules';
 import {getData, showMessage, storeData} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
 const Profile = () => {
   const navigation = useNavigation();
   const [photo, setPhoto] = useState(people);
   const [userProfile, setUserProfile] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -25,47 +27,26 @@ const Profile = () => {
     });
   };
 
-  const options = {
-    title: 'Select Image',
-    type: 'library',
-    options: {
-      maxWidth: 200,
-      maxHeight: 200,
-      selectionLimit: 1,
-      mediaType: 'photo',
-      includeBase64: true,
-    },
-  };
-
   const updatePhoto = async () => {
-    // const images = await launchImageLibrary(options);
     ImageCropPicker.openPicker({
-      width: 300,
-      height: 300,
       cropping: true,
       mediaType: 'photo',
-      includeBase64: true,
     }).then(images => {
       console.log('response', images);
       const dataImage = {
         uri: images.path,
-        type: images.mime,
-        name: 'profile_pic.jpeg',
+        type: 'image/jpg',
+        name: 'profile_pic.jpg',
       };
-      console.log('data Image :', dataImage);
       const photoForUpload = new FormData();
       photoForUpload.append('profilePhotoPath', dataImage);
-      // photoForUpload.append('_method', 'PATCH');
-      console.log('photoForUpload :', photoForUpload);
       getData('token').then(resToken => {
         getData('userProfile').then(resProfile => {
           fetch(
             `https://nagamas.kazuhaproject.com/api/v1/user/${resProfile.id}/photo`,
             {
-              method: 'PATCH',
+              method: 'POST',
               headers: {
-                Accept: 'application/json',
-                'Content-Type': 'multipart/form-data',
                 Authorization: resToken.value,
               },
               body: photoForUpload,
@@ -73,18 +54,18 @@ const Profile = () => {
           )
             .then(response => response.json())
             .then(responseJson => {
-              console.log('response:', responseJson.data);
-              // getData('userProfile').then(resUser => {
-              //   showMessage('Update Photo Berhasil', 'success');
-              //   resUser.profile_photo_url = `https://nagamas.kazuhaproject.com/storage/${responseJson.data[0]}`;
-              //   storeData('userProfile', resUser).then(() => {
-              //     updateUserProfile();
-              //   });
-              // });
+              console.log('sukses:', responseJson);
+              getData('userProfile').then(resUser => {
+                showMessage('Update Photo Berhasil', 'success');
+                resUser.profilePhotoPath = responseJson.data.profilePhotoPath;
+                storeData('userProfile', resUser).then(() => {
+                  updateUserProfile();
+                });
+              });
             })
             .catch(err => {
               console.log('error :', err);
-              // showMessage('Terjadi kesalahan di API Update Photo');
+              showMessage('Terjadi kesalahan di API Update Photo');
             });
         });
       });
