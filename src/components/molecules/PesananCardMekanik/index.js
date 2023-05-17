@@ -24,7 +24,7 @@ const PesananCardMekanik = ({image, status, onPress}) => {
     <TouchableOpacity style={styles.mekanik} onPress={onPress}>
       <View style={styles.wrapMekanik}>
         <Text>Status</Text>
-        {statusText}
+        <Text style={styles.status(status)}>{status}</Text>
       </View>
       <Gap height={10} />
       <Image source={image} style={styles.imgMekanik} />
@@ -71,11 +71,28 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 5,
   },
-  batal: {
+  txtStatus: {
     color: 'white',
-    backgroundColor: '#C10F0F',
+    // backgroundColor: '#C10F0F',
     paddingHorizontal: 15,
     paddingVertical: 3,
     borderRadius: 5,
   },
+  status: status => ({
+    fontSize: 14,
+    fontWeight: '500',
+    color: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 3,
+    borderRadius: 5,
+    // color: status === 'CANCELLED' ? '#D9435E' : '#1ABC9C',
+    backgroundColor:
+      status === 'Pending'
+        ? '#F2B200'
+        : 'Proses'
+        ? '#1565C0'
+        : 'Selesai'
+        ? '#27AE60'
+        : '#C10F0F',
+  }),
 });

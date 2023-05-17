@@ -95,7 +95,7 @@ const PesananProsesMekanik = () => {
 
   useEffect(() => {
     dispatch(getProsesMekanik());
-    // console.log('mekanik :', pendingMekanik);
+    // console.log('mekanik proses:', prosesMekanik);
   }, []);
 
   const onRefresh = () => {

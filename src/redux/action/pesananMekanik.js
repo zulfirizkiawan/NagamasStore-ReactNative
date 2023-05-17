@@ -10,7 +10,7 @@ export const getPendingMekanik = () => dispatch => {
   getData('userProfile').then(resProfile => {
     getData('token').then(resToken => {
       Axios.get(
-        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}`,
+        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}&status=Pending`,
         {
           headers: {
             Authorization: resToken.value,
@@ -19,7 +19,7 @@ export const getPendingMekanik = () => dispatch => {
         },
       )
         .then(res => {
-          console.log('berhasil', res.data.data.data);
+          // console.log('berhasil', res.data.data.data);
           dispatch({type: 'SET_PENDING_MEKANIK', value: res.data.data.data});
         })
         .catch(err => {
@@ -33,7 +33,7 @@ export const getProsesMekanik = () => dispatch => {
   getData('userProfile').then(resProfile => {
     getData('token').then(resToken => {
       Axios.get(
-        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}`,
+        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}&status=Proses`,
         {
           headers: {
             Authorization: resToken.value,
@@ -42,7 +42,7 @@ export const getProsesMekanik = () => dispatch => {
         },
       )
         .then(res => {
-          console.log('berhasil', res.data.data.data);
+          // console.log('berhasil', res.data.data.data);
           dispatch({type: 'SET_PROSES_MEKANIK', value: res.data.data.data});
         })
         .catch(err => {
@@ -56,7 +56,7 @@ export const getSelesaiMekanik = () => dispatch => {
   getData('userProfile').then(resProfile => {
     getData('token').then(resToken => {
       Axios.get(
-        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}`,
+        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}&status=Selesai`,
         {
           headers: {
             Authorization: resToken.value,
@@ -65,7 +65,7 @@ export const getSelesaiMekanik = () => dispatch => {
         },
       )
         .then(res => {
-          console.log('berhasil', res.data.data.data);
+          // console.log('berhasil', res.data.data.data);
           dispatch({type: 'SET_SELESAI_MEKANIK', value: res.data.data.data});
         })
         .catch(err => {
@@ -79,7 +79,7 @@ export const getBatalMekanik = () => dispatch => {
   getData('userProfile').then(resProfile => {
     getData('token').then(resToken => {
       Axios.get(
-        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}`,
+        `${API_HOST.url}/mechanic-transaction?user_id=${resProfile.id}&status=Batal`,
         {
           headers: {
             Authorization: resToken.value,
@@ -88,7 +88,7 @@ export const getBatalMekanik = () => dispatch => {
         },
       )
         .then(res => {
-          console.log('berhasil', res.data.data.data);
+          // console.log('berhasil', res.data.data.data);
           dispatch({type: 'SET_BATAL_MEKANIK', value: res.data.data.data});
         })
         .catch(err => {

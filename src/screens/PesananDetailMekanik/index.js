@@ -20,25 +20,6 @@ import {Garage1, Transfer} from '../../assets';
 
 const PesananDetailMekanik = ({navigation, route}) => {
   const itemMekanik = route.params;
-  console.log(itemMekanik);
-
-  const status = itemMekanik.status;
-  const getStatusText = () => {
-    if (status === 'Pending' || 'pending') {
-      return <Text style={styles.pending}>Pending</Text>;
-    }
-    if (status === 'Proses' || 'proses') {
-      return <Text style={styles.proses}>Proses</Text>;
-    }
-    if (status === 'Selesai' || 'selesai') {
-      return <Text style={styles.selesai}>Selesai</Text>;
-    }
-    if (status === 'Batal' || 'batal') {
-      return <Text style={styles.batal}>Batal</Text>;
-    }
-  };
-
-  const statusText = getStatusText();
 
   return (
     <View style={styles.container}>
@@ -52,7 +33,23 @@ const PesananDetailMekanik = ({navigation, route}) => {
           <Image source={Garage1} style={styles.imgMekanik} />
           <View style={styles.wrapInformasi}>
             <Text style={styles.txtMekanik}>Status</Text>
-            {statusText}
+            <Text
+              style={[
+                styles.txtStatus,
+                {
+                  color:
+                    itemMekanik.status === 'Pending'
+                      ? '#F2B200'
+                      : itemMekanik.status === 'Proses'
+                      ? '#1565C0'
+                      : itemMekanik.status === 'Selesai'
+                      ? '#27AE60'
+                      : '#C10F0F',
+                },
+              ]}>
+              {itemMekanik.status}
+            </Text>
+            {/* {statusText} */}
           </View>
           <Text style={styles.txtInformasi}>Informasi Mekanik</Text>
           <Gap height={8} />
@@ -188,5 +185,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 3,
     borderRadius: 5,
+  },
+  txtStatus: {
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
