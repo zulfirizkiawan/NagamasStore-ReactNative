@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CardMekanik, CardProfile, Gap} from '../../components';
 import {Garage1, Garage2, NullUserPhoto, people} from '../../assets';
@@ -8,6 +8,7 @@ import {getMekanikData} from '../../redux/action';
 
 const Mekanik = ({navigation}) => {
   const [userProfile, setUserProfile] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -23,6 +24,12 @@ const Mekanik = ({navigation}) => {
   useEffect(() => {
     dispatch(getMekanikData());
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getMekanikData());
+    setRefreshing(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -41,7 +48,11 @@ const Mekanik = ({navigation}) => {
       )}
       <Text style={styles.titleProduk}>Mekanik</Text>
       <Gap height={20} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {mekanik.map(itemMekanik => {
           return (
             <CardMekanik

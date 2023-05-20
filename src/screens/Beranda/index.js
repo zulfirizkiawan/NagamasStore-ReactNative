@@ -1,6 +1,7 @@
 import {
   FlatList,
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,6 +17,7 @@ import {getProductData} from '../../redux/action';
 
 const Beranda = ({navigation}) => {
   const [userProfile, setUserProfile] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -31,6 +33,12 @@ const Beranda = ({navigation}) => {
   useEffect(() => {
     dispatch(getProductData());
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getProductData());
+    setRefreshing(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -54,7 +62,11 @@ const Beranda = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <Gap height={20} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.wrapProduct}>
           {product.map(itemProduct => {
             return (

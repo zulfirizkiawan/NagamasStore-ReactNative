@@ -3,11 +3,31 @@ import React from 'react';
 import {Gap} from '../../atoms';
 
 const PesananCardMekanik = ({image, status, onPress}) => {
+  const getStatusColor = status => {
+    switch (status) {
+      case 'Pending':
+        return '#F2B200';
+      case 'Proses':
+        return '#1565C0';
+      case 'Kirim':
+        return '#1565C0';
+      case 'Selesai':
+        return '#27AE60';
+      default:
+        return '#C10F0F';
+    }
+  };
   return (
     <TouchableOpacity style={styles.mekanik} onPress={onPress}>
       <View style={styles.wrapMekanik}>
         <Text>Status</Text>
-        <Text style={styles.status(status)}>{status}</Text>
+        <Text
+          style={[
+            styles.statusText,
+            {backgroundColor: getStatusColor(status)},
+          ]}>
+          {status}
+        </Text>
       </View>
       <Gap height={10} />
       <Image source={image} style={styles.imgMekanik} />
@@ -33,20 +53,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     alignSelf: 'center',
   },
-  status: status => ({
+  statusText: {
     fontSize: 14,
     fontWeight: '500',
     color: 'white',
     paddingHorizontal: 15,
     paddingVertical: 3,
     borderRadius: 5,
-    backgroundColor:
-      status === 'Pending'
-        ? '#F2B200'
-        : 'Proses'
-        ? '#1565C0'
-        : 'Selesai'
-        ? '#27AE60'
-        : '#C10F0F',
-  }),
+  },
 });

@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {CardGaleri, CardProfile, Gap} from '../../components';
 import {NullUserPhoto, Paint, people} from '../../assets';
@@ -8,6 +8,7 @@ import {getGaleryData} from '../../redux/action';
 
 const Galeri = ({navigation}) => {
   const [userProfile, setUserProfile] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -23,6 +24,12 @@ const Galeri = ({navigation}) => {
   useEffect(() => {
     dispatch(getGaleryData());
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getGaleryData());
+    setRefreshing(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -41,7 +48,11 @@ const Galeri = ({navigation}) => {
       )}
       <Text style={styles.titleProduk}>Galeri</Text>
       <Gap height={20} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.wrapProduct}>
           {galery.map(itemGalery => {
             return (
