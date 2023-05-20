@@ -15,11 +15,15 @@ import {
   InformasiPembayaran,
   Input,
   ItemOutput,
+  Number,
 } from '../../components';
 import {Nippon, Transfer} from '../../assets';
 
-const PesananDetailProduct = ({navigation}) => {
-  const status = 'Pending';
+const PesananDetailProduct = ({navigation, route}) => {
+  const itemProduk = route.params;
+  console.log('itemproduk', itemProduk);
+
+  const status = itemProduk.status;
   const getStatusText = () => {
     if (status === 'Pending') {
       return <Text style={styles.pending}>Pending</Text>;
@@ -53,20 +57,22 @@ const PesananDetailProduct = ({navigation}) => {
             {statusText}
           </View>
           <Text style={styles.txtInformasi}>Informasi Pemesanan</Text>
-          <CardPembayaran
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            item={1}
-          />
-          <CardPembayaran
-            image={Nippon}
-            product="Cat Nippen 2000"
-            price={20000}
-            item={1}
-          />
+          {itemProduk.products.map(produkDetail => {
+            return (
+              <CardPembayaran
+                key={produkDetail.id}
+                image={{uri: produkDetail.productPhotoPath}}
+                product={produkDetail.name}
+                price={produkDetail.price}
+                item={produkDetail.pivot.quantity}
+              />
+            );
+          })}
           <Gap height={10} />
-          <ItemOutput title="Total Harga" result={'Rp 75.000'} />
+          <View style={styles.wrapInformasi}>
+            <Text style={styles.txtMekanik}>Total Pesanan</Text>
+            <Number number={itemProduk.total_price} style={styles.txtHarga} />
+          </View>
         </View>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
@@ -76,13 +82,24 @@ const PesananDetailProduct = ({navigation}) => {
           </Text>
           <Gap height={10} />
           <View style={styles.wrapInformasi}>
-            <Image source={Transfer} style={styles.imgBukti} />
+            <Image
+              source={{uri: itemProduk.purchaseReceiptPath}}
+              style={styles.imgBukti}
+            />
             <View style={styles.container}>
-              <Input title="Nama rekening anda" disable />
+              <Input
+                title="Nama rekening anda"
+                disable
+                value={itemProduk.bank_account_name}
+              />
               <Gap height={10} />
-              <Input title="Bank anda" disable />
+              <Input title="Bank anda" disable value={itemProduk.bank_name} />
               <Gap height={10} />
-              <Input title="No rekening anda" disable />
+              <Input
+                title="No rekening anda"
+                disable
+                value={itemProduk.account_number}
+              />
             </View>
           </View>
         </View>
@@ -130,6 +147,11 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#313131',
     flex: 1,
+  },
+  txtHarga: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#27AE60',
   },
   txtAlert: {
     fontSize: 12,

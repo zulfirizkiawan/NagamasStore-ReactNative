@@ -4,6 +4,7 @@ import {Minus, Nippon, Plus, Trash} from '../../../assets';
 import {Gap} from '../../atoms';
 import {useState, useEffect} from 'react';
 import {G} from 'react-native-svg';
+import Number from '../Number';
 
 const PesananCardProduct = ({
   nameProduct,
@@ -12,32 +13,34 @@ const PesananCardProduct = ({
   item,
   status,
   onPress,
+  totalProduk,
+  totalHarga,
 }) => {
-  const getStatusText = () => {
-    if (status === 'Pending') {
-      return <Text style={styles.pending}>Pending</Text>;
-    }
-    if (status === 'Proses') {
-      return <Text style={styles.proses}>Proses</Text>;
-    }
-    if (status === 'Kirim') {
-      return <Text style={styles.proses}>Kirim</Text>;
-    }
-    if (status === 'Selesai') {
-      return <Text style={styles.selesai}>Selesai</Text>;
-    }
-    if (status === 'Batal') {
-      return <Text style={styles.batal}>Batal</Text>;
+  const getStatusColor = status => {
+    switch (status) {
+      case 'Pending':
+        return '#F2B200';
+      case 'Proses':
+        return '#1565C0';
+      case 'Kirim':
+        return '#1565C0';
+      case 'Selesai':
+        return '#27AE60';
+      default:
+        return '#C10F0F';
     }
   };
-
-  const statusText = getStatusText();
-
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.wrapStatus}>
         <Text>Status</Text>
-        {statusText}
+        <Text
+          style={[
+            styles.statusText,
+            {backgroundColor: getStatusColor(status)},
+          ]}>
+          {status}
+        </Text>
       </View>
       <View style={styles.wrapContainer}>
         <Image source={image} style={styles.img} />
@@ -48,8 +51,19 @@ const PesananCardProduct = ({
             <Text style={styles.txtStok}>{item}</Text>
             <Text style={styles.txtStok}>Item</Text>
             <View style={styles.titik} />
-            <Text style={styles.titlePrice}>Rp {price}</Text>
+            <Number number={price} style={styles.titlePrice} />
           </View>
+        </View>
+      </View>
+      <View style={styles.garis} />
+      <View style={styles.wrapStatus}>
+        <View style={styles.wrapContainer}>
+          <Text style={styles.txtStok}>{totalProduk}</Text>
+          <Text style={styles.txtStok}>Produk</Text>
+        </View>
+        <View style={styles.wrapContainer}>
+          <Text style={styles.txtStok}>Total Pesanan :</Text>
+          <Number number={totalHarga} style={styles.txtHarga} />
         </View>
       </View>
     </TouchableOpacity>
@@ -63,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
     backgroundColor: 'white',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
   },
   wrapStatus: {
@@ -105,48 +119,22 @@ const styles = StyleSheet.create({
     color: '#565656',
     marginRight: 5,
   },
-  wrapPrice: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // paddingRight: 20,
+  txtHarga: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#27AE60',
   },
-  wrapBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  pending: {
+  statusText: {
+    fontSize: 14,
+    fontWeight: '500',
     color: 'white',
-    backgroundColor: '#F2B200',
     paddingHorizontal: 15,
     paddingVertical: 3,
     borderRadius: 5,
   },
-  proses: {
-    color: 'white',
-    backgroundColor: '#1565C0',
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    borderRadius: 5,
-  },
-  kirim: {
-    color: 'white',
-    backgroundColor: '#1565C0',
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    borderRadius: 5,
-  },
-  selesai: {
-    color: 'white',
-    backgroundColor: '#27AE60',
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    borderRadius: 5,
-  },
-  batal: {
-    color: 'white',
-    backgroundColor: '#C10F0F',
-    paddingHorizontal: 15,
-    paddingVertical: 3,
-    borderRadius: 5,
+  garis: {
+    borderBottomColor: '#BDBDBD',
+    borderBottomWidth: 0.7,
+    marginTop: 10,
   },
 });

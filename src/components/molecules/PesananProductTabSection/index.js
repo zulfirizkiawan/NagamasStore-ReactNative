@@ -6,12 +6,20 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {useNavigation} from '@react-navigation/native';
 import {Gap} from '../../atoms';
 import PesananCardProduct from '../PesananCardProduct';
 import {Nippon} from '../../../assets';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getPendingProduk,
+  getProsesProduk,
+  getKirimProduk,
+  getSelesaiProduk,
+  getBatalProduk,
+} from '../../../redux/action';
 
 const renderTabBar = props => (
   <TabBar
@@ -41,18 +49,43 @@ const renderTabBar = props => (
 
 const PesananPendingProduct = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {pendingProduk} = useSelector(state => state.pesananProdukReducer);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getPendingProduk());
+    // console.log('produk pending :', pendingProduk);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getPendingProduk());
+    setRefreshing(false);
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardProduct
-          image={Nippon}
-          nameProduct="Cat Nippen 2000"
-          price={20000}
-          item={1}
-          status="Pending"
-          onPress={() => navigation.navigate('PesananDetailProduct')}
-        />
+        {pendingProduk.map(itemProduk => {
+          return (
+            <PesananCardProduct
+              key={itemProduk.id}
+              image={{uri: itemProduk.products[0].productPhotoPath}}
+              nameProduct={itemProduk.products[0].name}
+              price={itemProduk.products[0].price}
+              item={itemProduk.products[0].pivot.quantity}
+              totalProduk={itemProduk.products.length}
+              totalHarga={itemProduk.total_price}
+              status={itemProduk.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailProduct', itemProduk)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -61,17 +94,43 @@ const PesananPendingProduct = () => {
 
 const PesananProsesProduct = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {prosesProduk} = useSelector(state => state.pesananProdukReducer);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getProsesProduk());
+    // console.log('produk proses :', prosesProduk);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getProsesProduk());
+    setRefreshing(false);
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardProduct
-          image={Nippon}
-          nameProduct="Cat Nippen 2000"
-          price={20000}
-          item={1}
-          status="Proses"
-        />
+        {prosesProduk.map(itemProduk => {
+          return (
+            <PesananCardProduct
+              key={itemProduk.id}
+              image={{uri: itemProduk.products[0].productPhotoPath}}
+              nameProduct={itemProduk.products[0].name}
+              price={itemProduk.products[0].price}
+              item={itemProduk.products[0].pivot.quantity}
+              totalProduk={itemProduk.products.length}
+              totalHarga={itemProduk.total_price}
+              status={itemProduk.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailProduct', itemProduk)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -80,17 +139,43 @@ const PesananProsesProduct = () => {
 
 const PesananKirimProduct = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {kirimProduk} = useSelector(state => state.pesananProdukReducer);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getKirimProduk());
+    // console.log('produk kirim :', kirimProduk);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getKirimProduk());
+    setRefreshing(false);
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardProduct
-          image={Nippon}
-          nameProduct="Cat Nippen 2000"
-          price={20000}
-          item={1}
-          status="Kirim"
-        />
+        {kirimProduk.map(itemProduk => {
+          return (
+            <PesananCardProduct
+              key={itemProduk.id}
+              image={{uri: itemProduk.products[0].productPhotoPath}}
+              nameProduct={itemProduk.products[0].name}
+              price={itemProduk.products[0].price}
+              item={itemProduk.products[0].pivot.quantity}
+              totalProduk={itemProduk.products.length}
+              totalHarga={itemProduk.total_price}
+              status={itemProduk.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailProduct', itemProduk)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -99,17 +184,43 @@ const PesananKirimProduct = () => {
 
 const PesananSelesaiProduct = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {selesaiProduk} = useSelector(state => state.pesananProdukReducer);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getSelesaiProduk());
+    // console.log('produk selesai :', selesaiProduk);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getSelesaiProduk());
+    setRefreshing(false);
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardProduct
-          image={Nippon}
-          nameProduct="Cat Nippen 2000"
-          price={20000}
-          item={1}
-          status="Selesai"
-        />
+        {selesaiProduk.map(itemProduk => {
+          return (
+            <PesananCardProduct
+              key={itemProduk.id}
+              image={{uri: itemProduk.products[0].productPhotoPath}}
+              nameProduct={itemProduk.products[0].name}
+              price={itemProduk.products[0].price}
+              item={itemProduk.products[0].pivot.quantity}
+              totalProduk={itemProduk.products.length}
+              totalHarga={itemProduk.total_price}
+              status={itemProduk.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailProduct', itemProduk)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
@@ -118,17 +229,43 @@ const PesananSelesaiProduct = () => {
 
 const PesananBatalProduct = () => {
   const navigation = useNavigation();
+  const [refreshing, setRefreshing] = useState(false);
+  const {batalProduk} = useSelector(state => state.pesananProdukReducer);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getBatalProduk());
+    // console.log('produk batal :', batalProduk);
+  }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getBatalProduk());
+    setRefreshing(false);
+  };
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.contentPage}>
-        <PesananCardProduct
-          image={Nippon}
-          nameProduct="Cat Nippen 2000"
-          price={20000}
-          item={1}
-          status="Batal"
-        />
+        {batalProduk.map(itemProduk => {
+          return (
+            <PesananCardProduct
+              key={itemProduk.id}
+              image={{uri: itemProduk.products[0].productPhotoPath}}
+              nameProduct={itemProduk.products[0].name}
+              price={itemProduk.products[0].price}
+              item={itemProduk.products[0].pivot.quantity}
+              totalProduk={itemProduk.products.length}
+              totalHarga={itemProduk.total_price}
+              status={itemProduk.status}
+              onPress={() =>
+                navigation.navigate('PesananDetailProduct', itemProduk)
+              }
+            />
+          );
+        })}
       </View>
       <Gap height={20} />
     </ScrollView>
