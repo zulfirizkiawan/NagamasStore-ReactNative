@@ -76,7 +76,7 @@ const Profile = () => {
       <View style={styles.wrapContainer}>
         <TouchableOpacity
           style={styles.editprofiles}
-          onPress={() => navigation.navigate('EditProfile')}>
+          onPress={() => navigation.navigate('EditProfile', userProfile)}>
           <Text style={styles.txtEdit}>Edit Profile</Text>
         </TouchableOpacity>
         <View style={{alignItems: 'center'}}>

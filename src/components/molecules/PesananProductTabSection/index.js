@@ -69,19 +69,22 @@ const PesananPendingProduct = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={styles.contentPage}>
-        {pendingProduk.map(itemProduk => {
+        {pendingProduk.map(itemProdukPending => {
+          const capitalizedStatus =
+            itemProdukPending.status.charAt(0).toUpperCase() +
+            itemProdukPending.status.slice(1);
           return (
             <PesananCardProduct
-              key={itemProduk.id}
-              image={{uri: itemProduk.products[0].productPhotoPath}}
-              nameProduct={itemProduk.products[0].name}
-              price={itemProduk.products[0].price}
-              item={itemProduk.products[0].pivot.quantity}
-              totalProduk={itemProduk.products.length}
-              totalHarga={itemProduk.total_price}
-              status={itemProduk.status}
+              key={itemProdukPending.id}
+              image={{uri: itemProdukPending.products[0].productPhotoPath}}
+              nameProduct={itemProdukPending.products[0].name}
+              price={itemProdukPending.products[0].price}
+              item={itemProdukPending.products[0].pivot.quantity}
+              totalProduk={itemProdukPending.products.length}
+              totalHarga={itemProdukPending.total_price}
+              status={capitalizedStatus}
               onPress={() =>
-                navigation.navigate('PesananDetailProduct', itemProduk)
+                navigation.navigate('PesananDetailProduct', itemProdukPending)
               }
             />
           );
@@ -114,19 +117,22 @@ const PesananProsesProduct = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View style={styles.contentPage}>
-        {prosesProduk.map(itemProduk => {
+        {prosesProduk.map(itemProdukProses => {
+          const capitalizedStatus =
+            itemProdukProses.status.charAt(0).toUpperCase() +
+            itemProdukProses.status.slice(1);
           return (
             <PesananCardProduct
-              key={itemProduk.id}
-              image={{uri: itemProduk.products[0].productPhotoPath}}
-              nameProduct={itemProduk.products[0].name}
-              price={itemProduk.products[0].price}
-              item={itemProduk.products[0].pivot.quantity}
-              totalProduk={itemProduk.products.length}
-              totalHarga={itemProduk.total_price}
-              status={itemProduk.status}
+              key={itemProdukProses.id}
+              image={{uri: itemProdukProses.products[0].productPhotoPath}}
+              nameProduct={itemProdukProses.products[0].name}
+              price={itemProdukProses.products[0].price}
+              item={itemProdukProses.products[0].pivot.quantity}
+              totalProduk={itemProdukProses.products.length}
+              totalHarga={itemProdukProses.total_price}
+              status={capitalizedStatus}
               onPress={() =>
-                navigation.navigate('PesananDetailProduct', itemProduk)
+                navigation.navigate('PesananDetailProduct', itemProdukProses)
               }
             />
           );
@@ -145,7 +151,6 @@ const PesananKirimProduct = () => {
 
   useEffect(() => {
     dispatch(getKirimProduk());
-    // console.log('produk kirim :', kirimProduk);
   }, []);
 
   const onRefresh = () => {
@@ -160,6 +165,9 @@ const PesananKirimProduct = () => {
       }>
       <View style={styles.contentPage}>
         {kirimProduk.map(itemProduk => {
+          const capitalizedStatus =
+            itemProduk.status.charAt(0).toUpperCase() +
+            itemProduk.status.slice(1);
           return (
             <PesananCardProduct
               key={itemProduk.id}
@@ -169,7 +177,7 @@ const PesananKirimProduct = () => {
               item={itemProduk.products[0].pivot.quantity}
               totalProduk={itemProduk.products.length}
               totalHarga={itemProduk.total_price}
-              status={itemProduk.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailProduct', itemProduk)
               }
@@ -205,6 +213,9 @@ const PesananSelesaiProduct = () => {
       }>
       <View style={styles.contentPage}>
         {selesaiProduk.map(itemProduk => {
+          const capitalizedStatus =
+            itemProduk.status.charAt(0).toUpperCase() +
+            itemProduk.status.slice(1);
           return (
             <PesananCardProduct
               key={itemProduk.id}
@@ -214,7 +225,7 @@ const PesananSelesaiProduct = () => {
               item={itemProduk.products[0].pivot.quantity}
               totalProduk={itemProduk.products.length}
               totalHarga={itemProduk.total_price}
-              status={itemProduk.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailProduct', itemProduk)
               }
@@ -250,6 +261,9 @@ const PesananBatalProduct = () => {
       }>
       <View style={styles.contentPage}>
         {batalProduk.map(itemProduk => {
+          const capitalizedStatus =
+            itemProduk.status.charAt(0).toUpperCase() +
+            itemProduk.status.slice(1);
           return (
             <PesananCardProduct
               key={itemProduk.id}
@@ -259,7 +273,7 @@ const PesananBatalProduct = () => {
               item={itemProduk.products[0].pivot.quantity}
               totalProduk={itemProduk.products.length}
               totalHarga={itemProduk.total_price}
-              status={itemProduk.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailProduct', itemProduk)
               }

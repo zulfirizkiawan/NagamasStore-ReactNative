@@ -4,5 +4,6 @@ export * from './beranda';
 export * from './galery';
 export * from './cart';
 export * from './mekanik';
+export * from './produk';
 export * from './pesananMekanik';
 export * from './pesananProduk';

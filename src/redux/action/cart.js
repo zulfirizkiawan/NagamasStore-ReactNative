@@ -36,7 +36,7 @@ export const cartAction = (data, navigation) => dispatch => {
       headers: {
         Authorization: resToken.value,
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
       },
     })
       .then(res => {

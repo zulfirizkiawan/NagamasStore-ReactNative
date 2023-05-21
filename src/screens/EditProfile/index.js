@@ -11,7 +11,6 @@ const EditProfile = ({navigation}) => {
   const [form, setForm] = useForm({
     name: '',
     phone_number: '',
-    email: '',
     address: '',
   });
 

@@ -17,7 +17,8 @@ const PesananCardProduct = ({
   totalHarga,
 }) => {
   const getStatusColor = status => {
-    switch (status) {
+    const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+    switch (capitalizedStatus) {
       case 'Pending':
         return '#F2B200';
       case 'Proses':
@@ -30,6 +31,7 @@ const PesananCardProduct = ({
         return '#C10F0F';
     }
   };
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.wrapStatus}>
@@ -56,6 +58,7 @@ const PesananCardProduct = ({
         </View>
       </View>
       <View style={styles.garis} />
+      <Gap height={5} />
       <View style={styles.wrapStatus}>
         <View style={styles.wrapContainer}>
           <Text style={styles.txtStok}>{totalProduk}</Text>

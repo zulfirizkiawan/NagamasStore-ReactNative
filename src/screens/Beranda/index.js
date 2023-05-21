@@ -13,7 +13,7 @@ import {CardProduct, CardProfile, Gap} from '../../components';
 import {Keranjang, Nippon, NullUserPhoto, people} from '../../assets';
 import {getData} from '../../utils';
 import {useDispatch, useSelector} from 'react-redux';
-import {getProductData} from '../../redux/action';
+import {getProductData, goCartAction} from '../../redux/action';
 
 const Beranda = ({navigation}) => {
   const [userProfile, setUserProfile] = useState({});
@@ -40,6 +40,10 @@ const Beranda = ({navigation}) => {
     setRefreshing(false);
   };
 
+  const onKeranjang = () => {
+    dispatch(goCartAction(navigation));
+  };
+
   return (
     <View style={styles.container}>
       {userProfile.profilePhotoPath ? (
@@ -57,7 +61,7 @@ const Beranda = ({navigation}) => {
       )}
       <View style={styles.wrapTitle}>
         <Text style={styles.titleProduk}>Produk</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Keranjang')}>
+        <TouchableOpacity onPress={onKeranjang}>
           <Keranjang />
         </TouchableOpacity>
       </View>

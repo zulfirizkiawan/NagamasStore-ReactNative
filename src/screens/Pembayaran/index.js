@@ -17,10 +17,11 @@ import {
   ItemOutput,
   Number,
 } from '../../components';
-import {Nippon, Transfer, UploadPayment} from '../../assets';
+import {Nippon, UploadPayment} from '../../assets';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch} from 'react-redux';
 import {useState} from 'react';
+import {coProdukData} from '../../redux/action';
 
 const Pembayaran = ({navigation, route}) => {
   const {cart, userProfile} = route.params;
@@ -30,6 +31,19 @@ const Pembayaran = ({navigation, route}) => {
   const [accountNumber, setAccountNumber] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
 
+  // untuk menghitung total harga dari semua produk pada halaman keranjang
+  const calculateTotalPrice = cart => {
+    let totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+      const item = cart[i];
+      totalPrice += item.product.price * item.quantity;
+    }
+    return totalPrice;
+  };
+
+  const totalHarga = calculateTotalPrice(cart);
+
+  // untuk memilih media foto galeri
   const selectImage = () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.didCancel) {
@@ -49,14 +63,13 @@ const Pembayaran = ({navigation, route}) => {
     formdata.append('bank_account_name', bankAccountName);
     formdata.append('bank_name', bankName);
     formdata.append('account_number', accountNumber);
-    formdata.append('total_price', cart);
     formdata.append('purchaseReceiptPath', {
       uri: selectedImage,
       name: 'paymentImage.jpg',
       type: 'image/jpg',
     });
     console.log('form', formdata);
-    // dispatch(coMekanikData(formdata, navigation));
+    dispatch(coProdukData(formdata, navigation));
   };
 
   return (
@@ -73,7 +86,7 @@ const Pembayaran = ({navigation, route}) => {
                 image={{uri: itemProduk.product.productPhotoPath ?? Nippon}}
                 product={itemProduk.product.name ?? ''}
                 price={itemProduk.price}
-                item={1}
+                item={itemProduk.quantity}
               />
             );
           })}
@@ -81,7 +94,7 @@ const Pembayaran = ({navigation, route}) => {
           <View style={styles.wrapInformasi}>
             <Text style={styles.txtMekanik}>Total Harga</Text>
             <Number
-              number={70000}
+              number={totalHarga}
               style={{color: '#313131', fontSize: 14, fontWeight: '500'}}
             />
           </View>

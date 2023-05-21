@@ -4,7 +4,8 @@ import {Gap} from '../../atoms';
 
 const PesananCardMekanik = ({image, status, onPress}) => {
   const getStatusColor = status => {
-    switch (status) {
+    const capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+    switch (capitalizedStatus) {
       case 'Pending':
         return '#F2B200';
       case 'Proses':
@@ -17,6 +18,7 @@ const PesananCardMekanik = ({image, status, onPress}) => {
         return '#C10F0F';
     }
   };
+
   return (
     <TouchableOpacity style={styles.mekanik} onPress={onPress}>
       <View style={styles.wrapMekanik}>

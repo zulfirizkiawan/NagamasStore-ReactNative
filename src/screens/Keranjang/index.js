@@ -7,18 +7,18 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Buttons, CardKeranjang, Headers, Number} from '../../components';
+import {CardKeranjang, Headers, Number} from '../../components';
 import {Nippon} from '../../assets';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteCartAction, getCartData, refreshCart} from '../../redux/action';
 import {getData} from '../../utils';
 
 const Keranjang = ({navigation}) => {
-  const [totalItem, setTotalItem] = useState(1);
   const [refreshing, setRefreshing] = useState(false);
   const {cart, refresh} = useSelector(state => state.cartReducer);
   const [userProfile, setUserProfile] = useState({});
 
+  console.log('cart', cart);
   useEffect(() => {
     navigation.addListener('focus', () => {
       getData('userProfile').then(res => {
@@ -49,22 +49,17 @@ const Keranjang = ({navigation}) => {
     dispatch(deleteCartAction(productId));
   };
 
-  // untuk menambah atau mengurangi jumlah item pada produk
-  const onCounterChange = value => {
-    setTotalItem(value);
-  };
-
   // untuk menghitung total harga dari semua produk pada halaman keranjang
-  const calculateTotalPrice = (cart, totalItem) => {
+  const calculateTotalPrice = cart => {
     let totalPrice = 0;
     for (let i = 0; i < cart.length; i++) {
       const item = cart[i];
-      totalPrice += item.price * totalItem;
+      totalPrice += item.product.price * item.quantity;
     }
     return totalPrice;
   };
 
-  const totalHarga = calculateTotalPrice(cart, totalItem);
+  const totalHarga = calculateTotalPrice(cart);
 
   return (
     <View style={styles.container}>
@@ -80,8 +75,8 @@ const Keranjang = ({navigation}) => {
                 key={itemCart.id}
                 image={{uri: itemCart.product.productPhotoPath ?? Nippon}}
                 product={itemCart.product.name ?? ''}
-                price={itemCart.price}
-                onValueChange={onCounterChange}
+                price={itemCart.product.price}
+                quantity={itemCart.quantity}
                 onPress={() => removeProduct(itemCart.id)}
               />
             );
@@ -116,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7F7F8',
   },
   wrapContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingBottom: 10,
   },
   wrapBtn: {

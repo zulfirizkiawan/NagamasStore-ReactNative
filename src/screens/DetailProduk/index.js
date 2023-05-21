@@ -1,27 +1,47 @@
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {Buttons, Gap, Headers, Number} from '../../components';
-import {Nippon} from '../../assets';
-import {getData, useForm} from '../../utils';
-import {useState} from 'react';
-import {useEffect} from 'react';
+import {Minus, Nippon, Plus} from '../../assets';
+import {getData, showMessage, useForm} from '../../utils';
 import {cartAction} from '../../redux/action/cart';
 import {useDispatch} from 'react-redux';
 import Axios from 'axios';
 
 const DetailProduk = ({navigation, route}) => {
   const {itemProduct, userProfile} = route.params;
+  const [quantity, setQuantity] = useState(1);
+
+  const decrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const increment = () => {
+    setQuantity(quantity + 1);
+  };
 
   const data = {
     user_id: userProfile.id,
     product_id: itemProduct.id,
-    quantity: 1,
-    price: itemProduct.price,
+    quantity: quantity,
     status_check: 1,
   };
   const dispatch = useDispatch();
+
   const onSubmit = () => {
-    dispatch(cartAction(data, navigation));
+    if (itemProduct.stock >= quantity) {
+      dispatch(cartAction(data, navigation));
+    } else {
+      showMessage('Stok produk tidak mencukupi', 'error');
+    }
   };
 
   return (
@@ -36,7 +56,22 @@ const DetailProduk = ({navigation, route}) => {
         <View style={styles.wrapContainer}>
           <Text style={styles.titleProduct}>{itemProduct.name}</Text>
           <Number number={itemProduct.price} style={styles.titlePrice} />
-          <Text style={styles.txtStok}>Tersedia stok {itemProduct.stock}</Text>
+          <View style={styles.wrapStok}>
+            <Text style={styles.txtStok}>
+              Tersedia stok {itemProduct.stock}
+            </Text>
+            <View style={styles.wrapOnCounter}>
+              <TouchableOpacity onPress={decrement}>
+                <Minus />
+              </TouchableOpacity>
+              <Gap width={8} />
+              <Text style={styles.txtItemStok}>{quantity}</Text>
+              <Gap width={8} />
+              <TouchableOpacity onPress={increment}>
+                <Plus />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         <Gap height={10} />
         <View style={styles.wrapContainer}>
@@ -82,6 +117,11 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#565656',
     paddingTop: 14,
+  },
+  txtItemStok: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#565656',
   },
   imgMekanik: {
     width: '100%',
@@ -132,5 +172,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingVertical: 20,
     paddingHorizontal: 20,
+  },
+  wrapOnCounter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  wrapStok: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

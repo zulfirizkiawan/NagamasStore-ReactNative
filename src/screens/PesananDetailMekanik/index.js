@@ -20,7 +20,8 @@ import {Garage1, Transfer} from '../../assets';
 
 const PesananDetailMekanik = ({navigation, route}) => {
   const itemMekanik = route.params;
-
+  const capitalizedStatus =
+    itemMekanik.status.charAt(0).toUpperCase() + itemMekanik.status.slice(1);
   return (
     <View style={styles.container}>
       <Headers
@@ -38,16 +39,16 @@ const PesananDetailMekanik = ({navigation, route}) => {
                 styles.txtStatus,
                 {
                   color:
-                    itemMekanik.status === 'Pending'
+                    capitalizedStatus === 'Pending'
                       ? '#F2B200'
-                      : itemMekanik.status === 'Proses'
+                      : capitalizedStatus === 'Proses'
                       ? '#1565C0'
-                      : itemMekanik.status === 'Selesai'
+                      : capitalizedStatus === 'Selesai'
                       ? '#27AE60'
                       : '#C10F0F',
                 },
               ]}>
-              {itemMekanik.status}
+              {capitalizedStatus}
             </Text>
             {/* {statusText} */}
           </View>

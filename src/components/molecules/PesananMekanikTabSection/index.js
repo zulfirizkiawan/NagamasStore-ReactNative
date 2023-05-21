@@ -70,11 +70,14 @@ const PesananPendingMekanik = () => {
       }>
       <View style={styles.contentPage}>
         {pendingMekanik.map(itemMekanik => {
+          const capitalizedStatus =
+            itemMekanik.status.charAt(0).toUpperCase() +
+            itemMekanik.status.slice(1);
           return (
             <PesananCardMekanik
               key={itemMekanik.id}
               image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
-              status={itemMekanik.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailMekanik', itemMekanik)
               }
@@ -111,11 +114,14 @@ const PesananProsesMekanik = () => {
       }>
       <View style={styles.contentPage}>
         {prosesMekanik.map(itemMekanik => {
+          const capitalizedStatus =
+            itemMekanik.status.charAt(0).toUpperCase() +
+            itemMekanik.status.slice(1);
           return (
             <PesananCardMekanik
               key={itemMekanik.id}
               image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
-              status={itemMekanik.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailMekanik', itemMekanik)
               }
@@ -152,11 +158,14 @@ const PesananSelesaiMekanik = () => {
       }>
       <View style={styles.contentPage}>
         {selesaiMekanik.map(itemMekanik => {
+          const capitalizedStatus =
+            itemMekanik.status.charAt(0).toUpperCase() +
+            itemMekanik.status.slice(1);
           return (
             <PesananCardMekanik
               key={itemMekanik.id}
               image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
-              status={itemMekanik.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailMekanik', itemMekanik)
               }
@@ -193,11 +202,14 @@ const PesananBatalMekanik = () => {
       }>
       <View style={styles.contentPage}>
         {batalMekanik.map(itemMekanik => {
+          const capitalizedStatus =
+            itemMekanik.status.charAt(0).toUpperCase() +
+            itemMekanik.status.slice(1);
           return (
             <PesananCardMekanik
               key={itemMekanik.id}
               image={{uri: itemMekanik.mechanic.mechanicPhotoPath}}
-              status={itemMekanik.status}
+              status={capitalizedStatus}
               onPress={() =>
                 navigation.navigate('PesananDetailMekanik', itemMekanik)
               }

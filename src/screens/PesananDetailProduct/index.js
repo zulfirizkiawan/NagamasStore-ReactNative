@@ -21,9 +21,10 @@ import {Nippon, Transfer} from '../../assets';
 
 const PesananDetailProduct = ({navigation, route}) => {
   const itemProduk = route.params;
-  console.log('itemproduk', itemProduk);
+  const capitalizedStatus =
+    itemProduk.status.charAt(0).toUpperCase() + itemProduk.status.slice(1);
 
-  const status = itemProduk.status;
+  const status = capitalizedStatus;
   const getStatusText = () => {
     if (status === 'Pending') {
       return <Text style={styles.pending}>Pending</Text>;

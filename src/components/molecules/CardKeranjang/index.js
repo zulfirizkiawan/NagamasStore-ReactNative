@@ -5,47 +5,26 @@ import {Gap} from '../../atoms';
 import {useState, useEffect} from 'react';
 import Number from '../Number';
 
-const Cardkeranjang = ({product, image, price, onValueChange, onPress}) => {
-  const [quantity, setQuantity] = useState(1);
-
-  useEffect(() => {
-    onValueChange(quantity);
-  }, []);
-
-  const decrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-      onValueChange(quantity - 1);
-    }
-  };
-
-  const increment = () => {
-    setQuantity(quantity + 1);
-    onValueChange(quantity + 1);
-  };
-
+const Cardkeranjang = ({product, image, price, onPress, quantity}) => {
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.img} />
       <View style={styles.wrapContainer}>
-        <Text style={styles.titleProduct}>{product}</Text>
+        <View style={styles.wrapPrice}>
+          <Text style={styles.titleProduct}>{product}</Text>
+          <View style={styles.wrapBtn}>
+            <Text style={styles.txtStok}>{quantity}</Text>
+            <Gap width={5} />
+            <Text style={styles.titleProduct}>Item</Text>
+          </View>
+        </View>
+
         <View style={styles.wrapPrice}>
           <Number number={price} style={styles.titlePrice} />
-          <View style={styles.wrapBtn}>
-            <TouchableOpacity onPress={onPress}>
-              <Trash />
-            </TouchableOpacity>
-            <Gap width={10} />
-            <TouchableOpacity onPress={decrement}>
-              <Minus />
-            </TouchableOpacity>
-            <Gap width={8} />
-            <Text style={styles.txtStok}>{quantity}</Text>
-            <Gap width={8} />
-            <TouchableOpacity onPress={increment}>
-              <Plus />
-            </TouchableOpacity>
-          </View>
+
+          <TouchableOpacity onPress={onPress}>
+            <Trash />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
