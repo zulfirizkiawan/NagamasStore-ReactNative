@@ -53,6 +53,7 @@ const Register = ({navigation}) => {
           secureTextEntry
           value={form.password}
           onChangeText={value => setFrom('password', value)}
+          note="Buat password minimal 8 karakter."
         />
         <Gap height={15} />
         <Input
@@ -60,6 +61,7 @@ const Register = ({navigation}) => {
           secureTextEntry
           value={form.password_confirmation}
           onChangeText={value => setFrom('password_confirmation', value)}
+          note="Buat password minimal 8 karakter."
         />
         <Gap height={15} />
         <Input

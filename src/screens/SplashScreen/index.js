@@ -2,6 +2,10 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {logo} from '../../assets';
 import {getData} from '../../utils';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
@@ -32,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 400,
-    height: 300,
+    width: wp('95%'),
+    height: hp('40%'),
   },
 });

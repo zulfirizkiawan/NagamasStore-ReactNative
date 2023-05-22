@@ -11,6 +11,7 @@ const EditProfile = ({navigation}) => {
   const [form, setForm] = useForm({
     name: '',
     phone_number: '',
+    email: '',
     address: '',
   });
 
@@ -41,7 +42,7 @@ const EditProfile = ({navigation}) => {
         })
         .catch(err => {
           dispatch(setLoading(false));
-          showMessage('Terjadi kesalahan di API Update Profile');
+          showMessage('Gagal dalam melakukan update profile');
         });
     });
   };
@@ -56,13 +57,19 @@ const EditProfile = ({navigation}) => {
           value={form.name}
           onChangeText={value => setForm('name', value)}
         />
-        <Gap height={15} />
+        <Gap height={5} />
+        <Input
+          title="Email"
+          value={form.email}
+          onChangeText={value => setForm('email', value)}
+        />
+        <Gap height={5} />
         <Input
           title="No Handphone"
           value={form.phone_number}
           onChangeText={value => setForm('phone_number', value)}
         />
-        <Gap height={15} />
+        <Gap height={5} />
         <Input
           title="Alamat"
           value={form.address}

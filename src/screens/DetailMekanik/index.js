@@ -18,7 +18,7 @@ import {
   Number,
 } from '../../components';
 import {Garage1, Transfer, UploadPayment} from '../../assets';
-import {getData, useForm} from '../../utils';
+import {getData, showMessage, useForm} from '../../utils';
 import {coMekanikData} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -46,26 +46,29 @@ const DetailMekanik = ({navigation, route}) => {
     });
   };
 
-  const API_HOST = {
-    url: 'https://nagamas.kazuhaproject.com/api/v1',
-  };
-
   const dispatch = useDispatch();
-  const onSubmit = () => {
-    const formdata = new FormData();
-    formdata.append('user_id', userProfile.id);
-    formdata.append('mechanic_id', itemMekanik.id);
-    formdata.append('bank_account_name', bankAccountName);
-    formdata.append('bank_name', bankName);
-    formdata.append('account_number', accountNumber);
-    formdata.append('total_price', itemMekanik.price);
-    formdata.append('purchaseReceiptPath', {
-      uri: selectedImage,
-      name: 'paymentImage.jpg',
-      type: 'image/jpg',
-    });
 
-    dispatch(coMekanikData(formdata, navigation));
+  const onSubmit = () => {
+    if (!selectedImage) {
+      // Jika selectedImage bernilai null
+      showMessage('Perlu bukti transfer pembayaran berupa foto', 'warning');
+    } else {
+      // Jika selectedImage tidak null
+      const formData = new FormData();
+      formData.append('user_id', userProfile.id);
+      formData.append('mechanic_id', itemMekanik.id);
+      formData.append('bank_account_name', bankAccountName);
+      formData.append('bank_name', bankName);
+      formData.append('account_number', accountNumber);
+      formData.append('total_price', itemMekanik.price);
+      formData.append('purchaseReceiptPath', {
+        uri: selectedImage,
+        name: 'paymentImage.jpg',
+        type: 'image/jpg',
+      });
+
+      dispatch(coMekanikData(formData, navigation));
+    }
   };
 
   return (

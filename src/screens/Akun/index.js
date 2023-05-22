@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7F7F8',
   },
   wrapContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
     backgroundColor: 'white',
   },
   titleAkun: {

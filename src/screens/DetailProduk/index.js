@@ -40,7 +40,7 @@ const DetailProduk = ({navigation, route}) => {
     if (itemProduct.stock >= quantity) {
       dispatch(cartAction(data, navigation));
     } else {
-      showMessage('Stok produk tidak mencukupi', 'error');
+      showMessage('Stok produk tidak mencukupi', 'warning');
     }
   };
 

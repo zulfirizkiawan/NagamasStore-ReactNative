@@ -2,6 +2,10 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Gap} from '../../components';
 import {MekanikRepair, ProductPesanan} from '../../assets';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const Pesanan = ({navigation}) => {
   return (
@@ -45,8 +49,8 @@ const styles = StyleSheet.create({
   },
   cardPesanan: {
     backgroundColor: 'white',
-    height: 170,
-    width: 170,
+    height: hp('25%'),
+    width: wp('45%'),
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -58,6 +62,6 @@ const styles = StyleSheet.create({
   wrapCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 12,
   },
 });

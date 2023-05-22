@@ -22,6 +22,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch} from 'react-redux';
 import {useState} from 'react';
 import {coProdukData} from '../../redux/action';
+import {showMessage} from '../../utils';
 
 const Pembayaran = ({navigation, route}) => {
   const {cart, userProfile} = route.params;
@@ -58,18 +59,23 @@ const Pembayaran = ({navigation, route}) => {
 
   const dispatch = useDispatch();
   const onSubmit = () => {
-    const formdata = new FormData();
-    formdata.append('user_id', userProfile.id);
-    formdata.append('bank_account_name', bankAccountName);
-    formdata.append('bank_name', bankName);
-    formdata.append('account_number', accountNumber);
-    formdata.append('purchaseReceiptPath', {
-      uri: selectedImage,
-      name: 'paymentImage.jpg',
-      type: 'image/jpg',
-    });
-    console.log('form', formdata);
-    dispatch(coProdukData(formdata, navigation));
+    if (!selectedImage) {
+      // Jika selectedImage bernilai null
+      showMessage('Perlu bukti transfer pembayaran berupa foto', 'warning');
+    } else {
+      const formdata = new FormData();
+      formdata.append('user_id', userProfile.id);
+      formdata.append('bank_account_name', bankAccountName);
+      formdata.append('bank_name', bankName);
+      formdata.append('account_number', accountNumber);
+      formdata.append('purchaseReceiptPath', {
+        uri: selectedImage,
+        name: 'paymentImage.jpg',
+        type: 'image/jpg',
+      });
+      // console.log('form', formdata);
+      dispatch(coProdukData(formdata, navigation));
+    }
   };
 
   return (

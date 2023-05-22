@@ -98,11 +98,11 @@ const Profile = () => {
         </View>
         <Gap height={40} />
         <Input title="Nama lengkap" disable value={userProfile.name} />
-        <Gap height={15} />
+        <Gap height={5} />
         <Input title="Email" disable value={userProfile.email} />
-        <Gap height={15} />
+        <Gap height={5} />
         <Input title="No Handphone" disable value={userProfile.phone_number} />
-        <Gap height={15} />
+        <Gap height={5} />
         <Input title="Alamat" disable value={userProfile.address} />
       </View>
     </View>

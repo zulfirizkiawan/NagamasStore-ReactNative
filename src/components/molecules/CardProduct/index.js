@@ -2,6 +2,10 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Gap} from '../../atoms';
 import Number from '../Number';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const CardProduct = ({image, title, price, onPress}) => {
   return (
@@ -24,7 +28,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 20,
     backgroundColor: 'white',
-    width: 170,
+    width: wp('45%'),
   },
   imgProduct: {
     width: '100%',

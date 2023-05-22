@@ -1,13 +1,17 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Gap, ItemOutput} from '../../atoms';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const CardMekanik = ({image, onPress, kategori}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapMekanik}>
         <Image source={image} style={styles.imgMekanik} />
-        <Gap width={10} />
+        {/* <Gap width={10} /> */}
         <TouchableOpacity onPress={onPress}>
           <View style={styles.wrapBtn}>
             <Text style={styles.txtBtn}>Sewa</Text>
@@ -36,8 +40,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   imgMekanik: {
-    width: 240,
-    height: 70,
+    // width: 240,
+    width: wp('63%'),
+    height: hp('10%'),
   },
   wrapBtn: {
     backgroundColor: '#335C32',

@@ -1,6 +1,10 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Gap} from '../../atoms';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const CardGaleri = ({image, title, onPress}) => {
   return (
@@ -22,7 +26,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 20,
     backgroundColor: 'white',
-    width: 170,
+    width: wp('45%'),
   },
   imgProduct: {
     width: '100%',

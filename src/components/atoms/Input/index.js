@@ -8,6 +8,7 @@ const Input = ({
   secureTextEntry,
   disable,
   keyboardType,
+  note,
 }) => {
   return (
     <View>
@@ -20,6 +21,7 @@ const Input = ({
         secureTextEntry={secureTextEntry}
         editable={!disable}></TextInput>
       <View style={styles.garis} />
+      <Text style={styles.notes}>{note}</Text>
     </View>
   );
 };
@@ -42,5 +44,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#BDBDBD',
     borderBottomWidth: 0.7,
     marginTop: -10,
+  },
+  notes: {
+    color: '#BDBDBD',
+    fontSize: 12,
+    fontWeight: '400',
+    // marginTop: 2,
   },
 });
