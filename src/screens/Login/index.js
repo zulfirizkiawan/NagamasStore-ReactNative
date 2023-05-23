@@ -32,13 +32,13 @@ const Login = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.txtlogin}>Login</Text>
         <Image source={login} style={styles.logins} />
-        <Gap height={50} />
+        <Gap height={30} />
         <Input
           title="Email"
           value={form.email}
           onChangeText={value => setFrom('email', value)}
         />
-        <Gap height={15} />
+        <Gap height={5} />
         <Input
           title="Password"
           secureTextEntry

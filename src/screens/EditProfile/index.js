@@ -18,6 +18,11 @@ const EditProfile = ({navigation}) => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
+    if (form.email && !form.email.includes('@gmail.com')) {
+      showMessage('Email harus menggunakan format @gmail.com', 'warning');
+      return;
+    }
+
     let resultObj = {};
     Object.keys(form).map(obj => {
       if (form[obj]) {
