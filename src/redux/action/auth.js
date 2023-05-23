@@ -41,6 +41,6 @@ export const signInAction = (form, navigation) => dispatch => {
     .catch(err => {
       console.log('error login', err);
       dispatch(setLoading(false));
-      showMessage('Login gagal');
+      showMessage('Login gagal mohon periksa email atau password anda');
     });
 };

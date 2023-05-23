@@ -49,11 +49,15 @@ const DetailMekanik = ({navigation, route}) => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    if (!selectedImage) {
-      // Jika selectedImage bernilai null
+    if (
+      bankName.length < 2 ||
+      accountNumber.length < 6 ||
+      bankAccountName.length < 3
+    ) {
+      showMessage('Mohon lengkapi data dengan benar', 'warning');
+    } else if (!selectedImage) {
       showMessage('Perlu bukti transfer pembayaran berupa foto', 'warning');
     } else {
-      // Jika selectedImage tidak null
       const formData = new FormData();
       formData.append('user_id', userProfile.id);
       formData.append('mechanic_id', itemMekanik.id);

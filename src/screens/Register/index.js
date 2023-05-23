@@ -9,7 +9,7 @@ import {
 import React from 'react';
 import {login} from '../../assets';
 import {Buttons, Gap, Input} from '../../components/atoms';
-import {useForm} from '../../utils';
+import {showMessage, useForm} from '../../utils';
 import {setLoading, signUpAction} from '../../redux/action';
 import {useDispatch} from 'react-redux';
 
@@ -25,11 +25,21 @@ const Register = ({navigation}) => {
   });
   const dispatch = useDispatch();
   const onSubmit = () => {
+    if (form.email && !form.email.includes('@gmail.com')) {
+      showMessage('Email harus menggunakan format @gmail.com', 'warning');
+      return;
+    } else if (
+      form.password.length < 8 ||
+      form.password_confirmation.length < 8
+    ) {
+      showMessage('Buat password minimal 8 karakter', 'warning');
+      return;
+    }
+
     dispatch(setLoading(true));
     dispatch(signUpAction(form, navigation));
     console.log('form register:', form);
   };
-
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>

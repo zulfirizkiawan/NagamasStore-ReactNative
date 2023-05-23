@@ -71,6 +71,7 @@ const EditProfile = ({navigation}) => {
         <Gap height={5} />
         <Input
           title="No Handphone"
+          keyboardType="numeric"
           value={form.phone_number}
           onChangeText={value => setForm('phone_number', value)}
         />
